@@ -24,7 +24,7 @@ plotCex <- 1.4
 myCexAxis <- 1.2
 myCexLab <- 1.2
 
-windowSizeBp <- 500*10^3
+windowSizeBp <- 500*10^3 
 options(scipen=100)
 
 

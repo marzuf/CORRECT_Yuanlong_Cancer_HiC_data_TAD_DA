@@ -1,5 +1,4 @@
 # Rscript ratio_genePval_tadPval.R
-
 source("../Cancer_HiC_data_TAD_DA/utils_fct.R")
 
 script_name <- "ratio_genePval_tadPval.R"
@@ -57,6 +56,10 @@ if(buildTable) {
     
     if(hicds == "ENCSR489OCU_NCI-H460_40kb") {
       hicds_td <- "NCI-H460_40kb"
+    } else if(hicds == "GSE75070_MCF-7_shNS_40kb"){
+      hicds_td <- "MCF-7_40kb"
+    } else if(hicds == "GSE118514_RWPE1_40kb" | hicds == "GSE58752_liver_40kb") {
+      return(NULL)
     } else {
       hicds_td <- hicds
     }

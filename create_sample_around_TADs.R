@@ -12,7 +12,6 @@ cat("... start ", script_name, "\n")
 
 startTime <- Sys.time()
 
-
 plotType <- "png"
 myHeight <- 400
 myWidth <- 600
@@ -21,7 +20,6 @@ SSHFS <- FALSE
 nCpu <- ifelse(SSHFS, 2, 40)
 
 buildSampleAroundTADs <- TRUE
-
 
 suppressPackageStartupMessages(library(foreach, warn.conflicts = FALSE, quietly = TRUE, verbose = FALSE))
 suppressPackageStartupMessages(library(doMC, warn.conflicts = FALSE, quietly = TRUE, verbose = FALSE))

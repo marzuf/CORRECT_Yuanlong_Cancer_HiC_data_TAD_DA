@@ -22,7 +22,6 @@ nCpu <- ifelse(SSHFS, 2, 40)
 
 buildSampleAroundTADs <- TRUE
 
-
 suppressPackageStartupMessages(library(foreach, warn.conflicts = FALSE, quietly = TRUE, verbose = FALSE))
 suppressPackageStartupMessages(library(doMC, warn.conflicts = FALSE, quietly = TRUE, verbose = FALSE))
 registerDoMC(nCpu)

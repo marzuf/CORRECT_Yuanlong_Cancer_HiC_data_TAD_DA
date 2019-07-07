@@ -11,7 +11,7 @@ script_name="AUC_coexprDist_withFam_sortNoDup_otherTADfile_otherFamFile.R"
  
 #############################################################
 all_data=(
-# DS launched 24.06.2019:
+# 1 # all launched 06.07.2019
 "ENCSR079VIJ_G401_40kb TCGAkich_norm_kich"
 # 2
 "ENCSR312KHQ_SK-MEL-5_40kb TCGAskcm_lowInf_highInf"
@@ -59,13 +59,13 @@ all_data=(
 # 14
 "Panc1_rep12_40kb TCGApaad_wt_mutKRAS"
 
-# TODO - added 20.06.2019
+# 
 "GSE118514_RWPE1_40kb TCGAprad_norm_prad"
 "GSE58752_liver_40kb TCGAlihc_norm_lihc"
 "GSE58752_liver_40kb TCGAlihc_wt_mutCTNNB1"
 "GSE75070_MCF-7_shNS_40kb TCGAbrca_lum_bas"
 
-### TODO - added 24.06.2019
+###  
 "K562_40kb TCGAlaml_wt_mutFLT3"
 
 )

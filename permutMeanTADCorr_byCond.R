@@ -1,9 +1,6 @@
 
 # Rscript permutMeanTADCorr_byCond.R
 
-
-# Rscript permutMeanTADCorr_byCond.R
-
 withDiago <- FALSE
 
 script_name <- "permutMeanTADCorr_byCond.R"
@@ -40,7 +37,7 @@ if(length(args) == 2) {
 
 cat(all_permut_files)
 
-stopifnot(length(all_permut_files) == 1)
+#stopifnot(length(all_permut_files) == 1)
 
 for(permut_file in all_permut_files) {
   

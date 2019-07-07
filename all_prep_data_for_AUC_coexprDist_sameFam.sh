@@ -9,7 +9,7 @@ scriptPrepFam="prep_gene_families_TAD_data_otherTADfile.R"
 scriptSameFam="create_sameFamily_sortNoDup_otherFamFile.R"
 
 
-# DS launched 24.06.2019:
+# DS launched 06.07.2019:
 all_TAD_files_ds=(
 # 1
 "ENCSR079VIJ_G401_40kb"
@@ -45,7 +45,7 @@ all_TAD_files_ds=(
 "GSE58752_liver_40kb"
 # 17
 "GSE75070_MCF-7_shNS_40kb" 
-# 18 # TODO - added 24.06.2019
+# 18 # TODO 
 "K562_40kb"
 )
 

@@ -23,7 +23,6 @@ myWidth <- ifelse(plotType == "png", 600, 10)
 outFold <- "CUMULATIVE_FEATURES"
 dir.create(outFold)
 
-
 coexprFolder <- "CREATE_COEXPR_SORTNODUP"
 corMet <- "pearson"
 

@@ -1,4 +1,4 @@
-# Rscript empPval_meanTADCorr_rank.R
+# Rscript empPval_meanTADCorr_rank.R 
 
 # Rscript empPval_meanTADCorr_rank.R Panc1_rep12_40kb TCGApaad_wt_mutKRAS
 

@@ -32,7 +32,7 @@ myWidth <- 600
 
 axisCex <- 1.2
 
-buildTable <- TRUE
+buildTable <- TRUE 
 
 # PIPELINE/OUTPUT_FOLDER/ENCSR444WCZ_A549_40kb/TCGAluad_norm_luad/4_runMeanTADCorr/all_meanCorr_TAD.Rdata
 
@@ -44,6 +44,8 @@ curr_file = "Panc1_rep12_40kb/TCGApaad_wt_mutKRAS/4_runMeanTADCorr/all_meanCorr_
 
 curr_file <- all_files[1]
 
+#cat(all_files[32])
+
 if(buildTable) {
   
   
@@ -54,12 +56,20 @@ if(buildTable) {
     hicds <- dirname(curr_ds)
     exprds <- basename(curr_ds)
     
+
+    if(hicds == "GSE118514_RWPE1_40kb") return(NULL)
+    if(hicds == "GSE58752_liver_40kb") return(NULL)
+    
     if(hicds == "ENCSR489OCU_NCI-H460_40kb") {
       hicds_td <- "NCI-H460_40kb"
+    } else if(hicds == "GSE75070_MCF-7_shNS_40kb") {
+      hicds_td <- "MCF-7_40kb"
     } else {
       hicds_td <- hicds
     }
     
+
+
     curr_ds_td <- file.path(hicds_td, exprds)
     
     td_hicds <- file.path(td_folder, hicds_td)

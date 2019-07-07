@@ -1,5 +1,5 @@
-# Rscript cumulative_features.R
-
+# Rscript cumulative_features_abs.R
+ 
 script_name <- "cumulative_features_abs.R"
 
 startTime <- Sys.time()

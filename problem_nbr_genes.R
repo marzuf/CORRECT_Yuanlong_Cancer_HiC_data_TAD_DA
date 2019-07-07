@@ -1,10 +1,9 @@
 # Rscript problem_nbr_genes.R
-
 script_name <- "problem_nbr_genes.R"
 
 startTime <- Sys.time()
 
-cat("> START coexpr_DE_queryTAD.R \n")
+cat("> START problem_nbr_genes.R \n")
 
 require(foreach)
 script0_name <- "0_prepGeneData"

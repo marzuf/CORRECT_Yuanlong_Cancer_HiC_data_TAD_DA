@@ -32,13 +32,16 @@ plotType <- "png"
 myHeight <- 400
 myWidth <- 600
 
-buildAllData <- FALSE
+buildAllData <- TRUE
 
 # PIPELINE/OUTPUT_FOLDER/ENCSR444WCZ_A549_40kb/TCGAluad_norm_luad/4_runMeanTADCorr/all_meanCorr_TAD.Rdata
 
 all_files <- list.files(pipFolder, recursive = TRUE, pattern="all_meanCorr_TAD.Rdata", full.names = FALSE)
 
 curr_file = "Panc1_rep12_40kb/TCGApaad_wt_mutKRAS/4_runMeanTADCorr/all_meanCorr_TAD.Rdata"
+
+cat(all_files[36], "\n")
+#stop("--ok\n")
 
 if(buildAllData){
 
@@ -49,10 +52,13 @@ if(buildAllData){
     hicds <- dirname(curr_ds)
     exprds <- basename(curr_ds)
     
-    
+    if(hicds == "GSE118514_RWPE1_40kb") return(NULL)
+    if(hicds == "GSE58752_liver_40kb") return(NULL)
     
     if(hicds == "ENCSR489OCU_NCI-H460_40kb") {
       hicds_td <- "NCI-H460_40kb"
+    } else if(hicds == "GSE75070_MCF-7_shNS_40kb") {
+      hicds_td <- "MCF-7_40kb"
     } else {
       hicds_td <- hicds
     }

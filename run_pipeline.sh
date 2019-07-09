@@ -61,14 +61,14 @@
 
 # GBM
 # ./run_pipeline.sh GSE105194_cerebellum_40kb TCGAgbm_classical_mesenchymal # 05.07.2019 - 07.07.2019
-# ./run_pipeline.sh GSE105194_cerebellum_40kb TCGAgbm_classical_neural # 05.07.2019 
-# ./run_pipeline.sh GSE105194_cerebellum_40kb TCGAgbm_classical_proneural # 05.07.2019 
-# ./run_pipeline.sh GSE105194_cerebellum_40kb TCGAlgg_IDHwt_IDHmutnc # 05.07.2019 
+# ./run_pipeline.sh GSE105194_cerebellum_40kb TCGAgbm_classical_neural # 05.07.2019 - 07.07.2019
+# ./run_pipeline.sh GSE105194_cerebellum_40kb TCGAgbm_classical_proneural # 05.07.2019 - 07.07.2019
+# ./run_pipeline.sh GSE105194_cerebellum_40kb TCGAlgg_IDHwt_IDHmutnc # 05.07.2019 - 07.07.2019
 
-# ./run_pipeline.sh GSE105194_spinal_cord_40kb TCGAgbm_classical_mesenchymal # 05.07.2019 
-# ./run_pipeline.sh GSE105194_spinal_cord_40kb TCGAgbm_classical_neural # 05.07.2019 
-# ./run_pipeline.sh GSE105194_spinal_cord_40kb TCGAgbm_classical_proneural # 05.07.2019
-# ./run_pipeline.sh GSE105194_spinal_cord_40kb TCGAlgg_IDHwt_IDHmutnc # 05.07.2019 
+# ./run_pipeline.sh GSE105194_spinal_cord_40kb TCGAgbm_classical_mesenchymal # 05.07.2019  - 07.07.2019
+# ./run_pipeline.sh GSE105194_spinal_cord_40kb TCGAgbm_classical_neural # 05.07.2019  - 07.07.2019
+# ./run_pipeline.sh GSE105194_spinal_cord_40kb TCGAgbm_classical_proneural # 05.07.2019 - 07.07.2019
+# ./run_pipeline.sh GSE105194_spinal_cord_40kb TCGAlgg_IDHwt_IDHmutnc # 05.07.2019  - 07.07.2019
 
 
 # COLORECTAL

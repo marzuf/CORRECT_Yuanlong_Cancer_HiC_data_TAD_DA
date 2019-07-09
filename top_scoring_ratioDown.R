@@ -182,7 +182,6 @@ outFile <- file.path(outFolder, "all_DT.Rdata")
 save(all_DT, file = outFile)
 cat("... written: ", outFile, "\n")
 
-
 xvar <- "ratioDown"
 
 all_y <- c("withinCoexpr", "meanFC", "meanCorr", "pvalComb", "adj_pvalComb")

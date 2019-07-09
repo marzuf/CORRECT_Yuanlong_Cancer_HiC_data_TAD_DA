@@ -44,6 +44,7 @@ all_pvalcomb_files <- list.files(pipOutFolder, recursive = TRUE, pattern="emp_pv
 stopifnot(length(all_pvalcomb_files) > 0)
 
 dataFile <- file.path(dataFolder, "allData_within_between_coexpr.Rdata")
+cat(dataFile, "\n")
 stopifnot(file.exists(dataFile))
 allData_within_between_coexpr <- eval(parse(text = load(dataFile)))
 

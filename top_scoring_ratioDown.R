@@ -39,10 +39,10 @@ stopifnot(length(all_fc_files) > 0)
 
 all_meanCorr_files <- list.files(pipOutFolder, recursive = TRUE, pattern="all_meanCorr_TAD.Rdata", full.names = FALSE)
 stopifnot(length(all_meanCorr_files) > 0)
-
-dataFile <- file.path(dataFolder, "allData_within_between_coexpr.Rdata")
-stopifnot(file.exists(dataFile))
-allData_within_between_coexpr <- eval(parse(text = load(dataFile)))
+# 
+# dataFile <- file.path(dataFolder, "allData_within_between_coexpr.Rdata")
+# stopifnot(file.exists(dataFile))
+# allData_within_between_coexpr <- eval(parse(text = load(dataFile)))
 
 all_ratioDown_files <- list.files(pipOutFolder, recursive = TRUE, pattern="all_obs_ratioDown.Rdata", full.names = FALSE)
 stopifnot(length(all_ratioDown_files) > 0)
@@ -102,12 +102,12 @@ pvalComb_DT <- foreach(pvalcomb_file = all_pvalComb_files, .combine = 'rbind') %
   tad_pvalComb <- eval(parse(text = load(curr_file)))
   dataset <- dirname(dirname(pvalcomb_file))
   adj_pvalComb <- p.adjust(tad_pvalComb, method="BH")
-  stopifnot(setequal(names(tad_rd), names(adj_pvalComb)))
+  stopifnot(setequal(names(tad_pvalComb), names(adj_pvalComb)))
   data.frame(
     dataset = dataset,
-    region = names(tad_rd),
-    pvalComb = as.numeric(tad_rd),
-    adj_pvalComb = as.numeric(adj_pvalComb[names(tad_rd)]),
+    region = names(tad_pvalComb),
+    pvalComb = as.numeric(tad_pvalComb),
+    adj_pvalComb = as.numeric(adj_pvalComb[names(tad_pvalComb)]),
     stringsAsFactors = FALSE
   )
 }
@@ -131,52 +131,52 @@ stopifnot(!is.na(all_DT))
 # sort the TADs by decreasing withinCoexpr
 # plot level of coexpr within and between on the same plot
 
-tad_coexpr_DT <- data.frame(
-  dataset = as.character(unlist(lapply(1:length(allData_within_between_coexpr), function(i) {
-    ds_name <- names(allData_within_between_coexpr)[i]
-    ds_name <- gsub("^CREATE_COEXPR_SORTNODUP/", "", ds_name)
-    ds_name <- gsub("/pearson/coexprDT.Rdata$", "", ds_name)
-    rep(ds_name, length(allData_within_between_coexpr[[i]]))
-  }))),
-  region = as.character(unlist(lapply(1:length(allData_within_between_coexpr), function(i) {
-    names(allData_within_between_coexpr[[i]])
-  }))),
-  
-  withinCoexpr = as.numeric(unlist(lapply(allData_within_between_coexpr, 
-                                          function(sublist) lapply(sublist, function(x) x[["withinCoexpr"]])))),
-  betweenAllCoexpr = as.numeric(unlist(lapply(allData_within_between_coexpr, 
-                                              function(sublist) lapply(sublist, function(x) x[["betweenAllCoexpr"]])))),
-  betweenKbCoexpr = as.numeric(unlist(lapply(allData_within_between_coexpr, 
-                                             function(sublist) lapply(sublist, function(x) x[["betweenKbCoexpr"]])))),
-  betweenNbrCoexpr = as.numeric(unlist(lapply(allData_within_between_coexpr, 
-                                              function(sublist) lapply(sublist, function(x) x[["betweenNbrCoexpr"]])))),
-  withinCoexpr_cond1 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
-                                                function(sublist) lapply(sublist, function(x) x[["withinCoexpr_cond1"]])))),
-  betweenAllCoexpr_cond1 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
-                                                    function(sublist) lapply(sublist, function(x) x[["betweenAllCoexpr_cond1"]])))),
-  betweenKbCoexpr_cond1 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
-                                                   function(sublist) lapply(sublist, function(x) x[["betweenKbCoexpr_cond1"]])))),
-  betweenNbrCoexpr_cond1 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
-                                                    function(sublist) lapply(sublist, function(x) x[["betweenNbrCoexpr_cond1"]])))),
-  withinCoexpr_cond2 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
-                                                function(sublist) lapply(sublist, function(x) x[["withinCoexpr_cond2"]])))),
-  betweenAllCoexpr_cond2 = as.numeric(unlist(lapply(allData_within_between_coexpr,
-                                                    function(sublist) lapply(sublist, function(x) x[["betweenAllCoexpr_cond2"]])))),
-  betweenKbCoexpr_cond2 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
-                                                   function(sublist) lapply(sublist, function(x) x[["betweenKbCoexpr_cond2"]])))),
-  betweenNbrCoexpr_cond2 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
-                                                    function(sublist) lapply(sublist, function(x) x[["betweenNbrCoexpr_cond2"]])))),
-  
-  stringsAsFactors = FALSE
-)
+      # tad_coexpr_DT <- data.frame(
+      #   dataset = as.character(unlist(lapply(1:length(allData_within_between_coexpr), function(i) {
+      #     ds_name <- names(allData_within_between_coexpr)[i]
+      #     ds_name <- gsub("^CREATE_COEXPR_SORTNODUP/", "", ds_name)
+      #     ds_name <- gsub("/pearson/coexprDT.Rdata$", "", ds_name)
+      #     rep(ds_name, length(allData_within_between_coexpr[[i]]))
+      #   }))),
+      #   region = as.character(unlist(lapply(1:length(allData_within_between_coexpr), function(i) {
+      #     names(allData_within_between_coexpr[[i]])
+      #   }))),
+      #   
+      #   withinCoexpr = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+      #                                           function(sublist) lapply(sublist, function(x) x[["withinCoexpr"]])))),
+      #   betweenAllCoexpr = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+      #                                               function(sublist) lapply(sublist, function(x) x[["betweenAllCoexpr"]])))),
+      #   betweenKbCoexpr = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+      #                                              function(sublist) lapply(sublist, function(x) x[["betweenKbCoexpr"]])))),
+      #   betweenNbrCoexpr = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+      #                                               function(sublist) lapply(sublist, function(x) x[["betweenNbrCoexpr"]])))),
+      #   withinCoexpr_cond1 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+      #                                                 function(sublist) lapply(sublist, function(x) x[["withinCoexpr_cond1"]])))),
+      #   betweenAllCoexpr_cond1 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+      #                                                     function(sublist) lapply(sublist, function(x) x[["betweenAllCoexpr_cond1"]])))),
+      #   betweenKbCoexpr_cond1 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+      #                                                    function(sublist) lapply(sublist, function(x) x[["betweenKbCoexpr_cond1"]])))),
+      #   betweenNbrCoexpr_cond1 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+      #                                                     function(sublist) lapply(sublist, function(x) x[["betweenNbrCoexpr_cond1"]])))),
+      #   withinCoexpr_cond2 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+      #                                                 function(sublist) lapply(sublist, function(x) x[["withinCoexpr_cond2"]])))),
+      #   betweenAllCoexpr_cond2 = as.numeric(unlist(lapply(allData_within_between_coexpr,
+      #                                                     function(sublist) lapply(sublist, function(x) x[["betweenAllCoexpr_cond2"]])))),
+      #   betweenKbCoexpr_cond2 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+      #                                                    function(sublist) lapply(sublist, function(x) x[["betweenKbCoexpr_cond2"]])))),
+      #   betweenNbrCoexpr_cond2 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+      #                                                     function(sublist) lapply(sublist, function(x) x[["betweenNbrCoexpr_cond2"]])))),
+      #   
+      #   stringsAsFactors = FALSE
+      # )
+      # 
+      # stopifnot(nrow(tad_coexprDT) == nrow(all_DT))
 
-stopifnot(nrow(tad_coexprDT) == nrow(all_DT))
+# all_DT <- merge(all_DT, tad_coexpr_DT, by=c("dataset", "region"), all = TRUE)
 
-all_DT <- merge(all_DT, tad_coexpr_DT, by=c("dataset", "region"), all = TRUE)
+    # stopifnot(nrow(tad_coexprDT) == nrow(all_DT))
 
-stopifnot(nrow(tad_coexprDT) == nrow(all_DT))
-
-stopifnot(!is.na(tad_coexpr_DT))
+stopifnot(!is.na(all_DT))
 
 outFile <- file.path(outFolder, "all_DT.Rdata")
 save(all_DT, file = outFile)
@@ -184,14 +184,35 @@ cat("... written: ", outFile, "\n")
 
 xvar <- "ratioDown"
 
-all_y <- c("withinCoexpr", "meanFC", "meanCorr", "pvalComb", "adj_pvalComb")
+all_DT$pvalComb_log10 <- -log10(all_DT$pvalComb)
+all_DT$adj_pvalComb_log10 <- -log10(all_DT$adj_pvalComb)
+
+all_DT$meanCorr_rank <- rank(- all_DT$meanCorr, ties = "min")
+all_DT$meanFC_rank <- rank(- abs(all_DT$meanFC), ties = "min")
+all_DT$avgRank <- 0.5*(all_DT$meanFC_rank + all_DT$meanCorr_rank)
+
+all_DT <- do.call(rbind,  by(all_DT, all_DT$dataset, function(subDT) {
+  subDT$meanCorr_dsRank <- rank(- subDT$meanCorr, ties = "min")
+  subDT$meanFC_dsRank <- rank(- subDT$meanFC, ties = "min")
+  subDT$avgRank_ds <- 0.5*(subDT$meanCorr_dsRank + subDT$meanFC_dsRank)
+  subDT
+}))
+
+
+
+# all_y <- c("withinCoexpr", "meanFC", "meanCorr", "pvalComb", "adj_pvalComb")
+all_y <- c("meanFC", "meanCorr", 
+           "pvalComb", "adj_pvalComb", 
+           "pvalComb_log10", "adj_pvalComb_log10",
+           "meanCorr_rank", "meanFC_rank", "avgRank",
+           "meanCorr_dsRank", "meanFC_dsRank", "avgRank_ds")
 
 for(yvar in all_y) {
   
-  myx <- tad_coexpr_fc_DT[, paste0(xvar)]
+  myx <- all_DT[, paste0(xvar)]
   stopifnot(length(myx) > 0)
   
-  myy <-  tad_coexpr_fc_DT[, paste0(yvar)]
+  myy <-  all_DT[, paste0(yvar)]
   stopifnot(length(myy) > 0)
   
   outFile <- file.path(outFolder, paste0(yvar, "_vs_", xvar, "_densplot.", plotType ))
@@ -206,7 +227,7 @@ for(yvar in all_y) {
     cex = 0.5,
     main = paste0(yvar, " vs. ", xvar)
   )
-  addCorr(x = myx, myy = myy, bty="n")
+  addCorr(x = myx, y = myy, bty="n")
   
   foo <- dev.off()
   cat("... written: ", outFile, "\n")
@@ -214,10 +235,6 @@ for(yvar in all_y) {
   
   
 }
-
-
-
-stop("--ok\n")
 
 
 

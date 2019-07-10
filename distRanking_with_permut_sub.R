@@ -1,5 +1,7 @@
 
 
+stop("--- USE INSTEAD: distRanking_with_permut_foreach.R\n")
+
 # Rscript distRanking_with_permut_sub.R 
 
 # Rscript distRanking_with_permut_sub.R Panc1_rep12_40kb TCGApaad_wt_mutKRAS # to run 1 dataset at time

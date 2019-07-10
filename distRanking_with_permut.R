@@ -1,4 +1,4 @@
-
+stop("--- USE INSTEAD: distRanking_with_permut_foreach.R\n")
 
 # Rscript distRanking_with_permut.R 
 

@@ -106,8 +106,7 @@ stopifnot(length(all_hicds) > 0)
 if(buildData) {
   hicds = "K562_40kb"
   
-  all_hicds = all_hicds[1]
-  
+
   all_ds_TAD_DT <- foreach(hicds = all_hicds, .combine='rbind') %dopar% {
     
     cat("... start ", hicds, "\n")

@@ -1,11 +1,11 @@
 
-# Rscript coexpr_between_within_all.R
+# Rscript coexpr_between_within_withinOnly.R
 
-script_name <- "coexpr_between_within_all.R"
+script_name <- "coexpr_between_within_withinOnly.R"
 
 startTime <- Sys.time()
 
-cat("> START coexpr_between_within_all.R \n")
+cat("> START coexpr_between_within_withinOnly.R \n")
 
 SSHFS <- FALSE
 
@@ -30,7 +30,7 @@ windowSizeBp <- 500*10^3
 options(scipen=100)
 
 
-outFolder <- "COEXPR_BETWEEN_WITHIN_ALL"
+outFolder <- "COEXPR_BETWEEN_WITHIN_WITHINONLY"
 dir.create(outFolder, recursive=TRUE)
 
 corrMet <- "pearson"
@@ -180,59 +180,7 @@ if(buildData) {
       ### WITHIN
       within_coexprDT <- tad_coexprDT[tad_coexprDT$gene1 %in% tad_genes & tad_coexprDT$gene2 %in% tad_genes,]
       
-      ### BETWEEN: ALL
-      # betweenAll: 1 of the 2 is not in TAD
-      betweenAll_coexprDT <- tad_coexprDT[ ! (tad_coexprDT$gene1 %in% tad_genes & tad_coexprDT$gene2 %in% tad_genes),]
-      stopifnot(nrow(within_coexprDT) + nrow(betweenAll_coexprDT) == nrow(tad_coexprDT))
-      
-      stopifnot(betweenAll_coexprDT$gene1 %in% tad_genes | 
-                  betweenAll_coexprDT$gene2 %in% tad_genes )
-      
-      stopifnot( ! betweenAll_coexprDT$gene1 %in% tad_genes | 
-                  ! betweenAll_coexprDT$gene2 %in% tad_genes )
-      
-      ### BETWEEN: GENES AROUND - NUMBER
-      betweenGenes_windowNbr <- all_ds_sample_around_TADs[[file.path(hicds, exprds)]][[paste0(reg)]]
-      stopifnot(length(betweenGenes_windowNbr) > 0)
-      
-      betweenNbr_coexprDT <- tad_coexprDT[ tad_coexprDT$gene1 %in% betweenGenes_windowNbr | 
-                                             tad_coexprDT$gene2 %in% betweenGenes_windowNbr,] 
-      stopifnot( betweenNbr_coexprDT$gene1 %in% betweenGenes_windowNbr |
-                   betweenNbr_coexprDT$gene1 %in% tad_genes )
-      
-      stopifnot( betweenNbr_coexprDT$gene2 %in% betweenGenes_windowNbr |
-                   betweenNbr_coexprDT$gene2 %in% tad_genes )
-      
-      stopifnot( ! (betweenNbr_coexprDT$gene1 %in% tad_genes & 
-                      betweenNbr_coexprDT$gene2 %in% tad_genes) ) 
-                      
-      stopifnot(betweenGenes_windowNbr %in% betweenAll_coexprDT$gene1 | 
-                  betweenGenes_windowNbr %in% betweenAll_coexprDT$gene2)
-      
-      stopifnot(!betweenGenes_windowNbr %in% within_coexprDT$gene1 &
-                  ! betweenGenes_windowNbr %in% within_coexprDT$gene2)
-      
-      ### BETWEEN: GENES AROUND - KB
-      betweenGenes_windowKb <- all_ds_sample_aroundKb_TADs[[file.path(hicds, exprds)]][[paste0(reg)]]
-      # stopifnot(length(betweenGenes_windowKb) > 0) => not always TRUE
-      
-      betweenKb_coexprDT <- tad_coexprDT[ tad_coexprDT$gene1 %in% betweenGenes_windowKb | 
-                                             tad_coexprDT$gene2 %in% betweenGenes_windowKb,] 
-      stopifnot( betweenKb_coexprDT$gene1 %in% betweenGenes_windowKb |
-                   betweenKb_coexprDT$gene1 %in% tad_genes )
-      
-      stopifnot( betweenKb_coexprDT$gene2 %in% betweenGenes_windowKb |
-                   betweenKb_coexprDT$gene2 %in% tad_genes )
-      
-      stopifnot( ! (betweenKb_coexprDT$gene1 %in% tad_genes & 
-                      betweenKb_coexprDT$gene2 %in% tad_genes) ) 
-      
-      stopifnot(betweenGenes_windowKb %in% betweenAll_coexprDT$gene1 | 
-                  betweenGenes_windowKb %in% betweenAll_coexprDT$gene2)
-      
-      stopifnot(!betweenGenes_windowKb %in% within_coexprDT$gene1 &
-                  ! betweenGenes_windowKb %in% within_coexprDT$gene2)
-      
+
       ####################################################################
       #### COND 1
       ####################################################################
@@ -249,72 +197,7 @@ if(buildData) {
       
       within_coexprDT_cond1 <- tad_coexprDT_cond1[tad_coexprDT_cond1$gene1 %in% tad_genes & tad_coexprDT_cond1$gene2 %in% tad_genes,]
       
-      
-      
-      ### BETWEEN: ALL
-      
-      
-      betweenAll_coexprDT_cond1 <- tad_coexprDT_cond1[ ! (tad_coexprDT_cond1$gene1 %in% tad_genes & tad_coexprDT_cond1$gene2 %in% tad_genes),]
-      
-      stopifnot(nrow(within_coexprDT_cond1) + nrow(betweenAll_coexprDT_cond1) == nrow(tad_coexprDT_cond1))
-      
-      
-      stopifnot(betweenAll_coexprDT_cond1$gene1 %in% tad_genes | 
-                  betweenAll_coexprDT_cond1$gene2 %in% tad_genes )
-      
-      stopifnot( ! betweenAll_coexprDT_cond1$gene1 %in% tad_genes | 
-                   ! betweenAll_coexprDT_cond1$gene2 %in% tad_genes )
-      
-      
-      
-      
-      ### BETWEEN: GENES AROUND - NBR
-    
-      
-      
-      betweenNbr_coexprDT_cond1 <- tad_coexprDT_cond1[ tad_coexprDT_cond1$gene1 %in% betweenGenes_windowNbr | 
-                                             tad_coexprDT_cond1$gene2 %in% betweenGenes_windowNbr,] 
-      stopifnot( betweenNbr_coexprDT_cond1$gene1 %in% betweenGenes_windowNbr |
-                   betweenNbr_coexprDT_cond1$gene1 %in% tad_genes )
-      
-      stopifnot( betweenNbr_coexprDT_cond1$gene2 %in% betweenGenes_windowNbr |
-                   betweenNbr_coexprDT_cond1$gene2 %in% tad_genes )
-      
-      stopifnot( ! (betweenNbr_coexprDT_cond1$gene1 %in% tad_genes & 
-                      betweenNbr_coexprDT_cond1$gene2 %in% tad_genes) ) 
-      
-      stopifnot(betweenGenes_windowNbr %in% betweenAll_coexprDT$gene1 | 
-                  betweenGenes_windowNbr %in% betweenAll_coexprDT$gene2)
-      
-      stopifnot(!betweenGenes_windowNbr %in% within_coexprDT$gene1 &
-                  ! betweenGenes_windowNbr %in% within_coexprDT$gene2)
-      
-      
-      
-      
-      
-      ### BETWEEN: GENES AROUND - KB
-      
-      betweenKb_coexprDT_cond1 <- tad_coexprDT_cond1[ tad_coexprDT_cond1$gene1 %in% betweenGenes_windowKb | 
-                                            tad_coexprDT_cond1$gene2 %in% betweenGenes_windowKb,] 
-      stopifnot( betweenKb_coexprDT_cond1$gene1 %in% betweenGenes_windowKb |
-                   betweenKb_coexprDT_cond1$gene1 %in% tad_genes )
-      
-      stopifnot( betweenKb_coexprDT_cond1$gene2 %in% betweenGenes_windowKb |
-                   betweenKb_coexprDT_cond1$gene2 %in% tad_genes )
-      
-      stopifnot( ! (betweenKb_coexprDT_cond1$gene1 %in% tad_genes & 
-                      betweenKb_coexprDT_cond1$gene2 %in% tad_genes) ) 
-      
-      stopifnot(betweenGenes_windowKb %in% betweenAll_coexprDT$gene1 | 
-                  betweenGenes_windowKb %in% betweenAll_coexprDT$gene2)
-      
-      stopifnot(!betweenGenes_windowKb %in% within_coexprDT$gene1 &
-                  ! betweenGenes_windowKb %in% within_coexprDT$gene2)
-      
-      
-      
-      
+
       ####################################################################
       #### COND 2
       ####################################################################
@@ -330,81 +213,12 @@ if(buildData) {
       ### WITHIN
       within_coexprDT_cond2 <- tad_coexprDT_cond2[tad_coexprDT_cond2$gene1 %in% tad_genes & tad_coexprDT_cond2$gene2 %in% tad_genes,]
       
-      ### BETWEEN: ALL
-      
-      betweenAll_coexprDT_cond2 <- tad_coexprDT_cond2[ ! (tad_coexprDT_cond2$gene1 %in% tad_genes & tad_coexprDT_cond2$gene2 %in% tad_genes),]
-      
-      stopifnot(nrow(within_coexprDT_cond2) + nrow(betweenAll_coexprDT_cond2) == nrow(tad_coexprDT_cond2))
-      
-      stopifnot(betweenAll_coexprDT_cond2$gene1 %in% tad_genes | 
-                  betweenAll_coexprDT_cond2$gene2 %in% tad_genes )
-      
-      stopifnot( ! betweenAll_coexprDT_cond2$gene1 %in% tad_genes | 
-                   ! betweenAll_coexprDT_cond2$gene2 %in% tad_genes )
-      
-      
-      ### BETWEEN: GENES AROUND - NBR
-      
-      
-      betweenNbr_coexprDT_cond2 <- tad_coexprDT_cond2[ tad_coexprDT_cond2$gene1 %in% betweenGenes_windowNbr | 
-                                             tad_coexprDT_cond2$gene2 %in% betweenGenes_windowNbr,] 
-      stopifnot( betweenNbr_coexprDT_cond2$gene1 %in% betweenGenes_windowNbr |
-                   betweenNbr_coexprDT_cond2$gene1 %in% tad_genes )
-      
-      stopifnot( betweenNbr_coexprDT_cond2$gene2 %in% betweenGenes_windowNbr |
-                   betweenNbr_coexprDT_cond2$gene2 %in% tad_genes )
-      
-      stopifnot( ! (betweenNbr_coexprDT_cond2$gene1 %in% tad_genes & 
-                      betweenNbr_coexprDT_cond2$gene2 %in% tad_genes) ) 
-      
-      stopifnot(betweenGenes_windowNbr %in% betweenAll_coexprDT$gene1 | 
-                  betweenGenes_windowNbr %in% betweenAll_coexprDT$gene2)
-      
-      stopifnot(!betweenGenes_windowNbr %in% within_coexprDT$gene1 &
-                  ! betweenGenes_windowNbr %in% within_coexprDT$gene2)
-      
-      
-      
-      
-      ### BETWEEN: GENES AROUND - KB
-      
-      
-      betweenKb_coexprDT_cond2 <- tad_coexprDT_cond2[ tad_coexprDT_cond2$gene1 %in% betweenGenes_windowKb | 
-                                            tad_coexprDT_cond2$gene2 %in% betweenGenes_windowKb,] 
-      stopifnot( betweenKb_coexprDT_cond2$gene1 %in% betweenGenes_windowKb |
-                   betweenKb_coexprDT_cond2$gene1 %in% tad_genes )
-      
-      stopifnot( betweenKb_coexprDT_cond2$gene2 %in% betweenGenes_windowKb |
-                   betweenKb_coexprDT_cond2$gene2 %in% tad_genes )
-      
-      stopifnot( ! (betweenKb_coexprDT_cond2$gene1 %in% tad_genes & 
-                      betweenKb_coexprDT_cond2$gene2 %in% tad_genes) ) 
-      
-      stopifnot(betweenGenes_windowKb %in% betweenAll_coexprDT$gene1 | 
-                  betweenGenes_windowKb %in% betweenAll_coexprDT$gene2)
-      
-      stopifnot(!betweenGenes_windowKb %in% within_coexprDT$gene1 &
-                  ! betweenGenes_windowKb %in% within_coexprDT$gene2)
-      
-      
-      
-      
-      
       
       #####################################################################################################
       
       list(withinCoexpr = mean(within_coexprDT$coexpr),
            withinCoexpr_cond1 = mean(within_coexprDT_cond1$coexpr),
-           withinCoexpr_cond2 = mean(within_coexprDT_cond2$coexpr),
-           betweenAllCoexpr = mean(betweenAll_coexprDT$coexpr),
-           betweenAllCoexpr_cond1 = mean(betweenAll_coexprDT_cond1$coexpr),
-           betweenAllCoexpr_cond2 = mean(betweenAll_coexprDT_cond2$coexpr),
-           betweenKbCoexpr = mean(betweenKb_coexprDT$coexpr),
-           betweenKbCoexpr_cond1 = mean(betweenKb_coexprDT_cond1$coexpr),
-           betweenKbCoexpr_cond2 = mean(betweenKb_coexprDT_cond2$coexpr),
-           betweenNbrCoexpr = mean(betweenNbr_coexprDT$coexpr),
-           betweenNbrCoexpr_cond1 = mean(betweenNbr_coexprDT_cond1$coexpr),
-           betweenNbrCoexpr_cond2 = mean(betweenNbr_coexprDT_cond2$coexpr)
+           withinCoexpr_cond2 = mean(within_coexprDT_cond2$coexpr)
            )
     } # end-foreach iterating over TADs
     names(within_between_coexpr_data) <- pipeline_regionList
@@ -420,6 +234,8 @@ if(buildData) {
   outFile <- file.path(outFolder, "allData_within_between_coexpr.Rdata")
   allData_within_between_coexpr <- eval(parse(text = load(outFile)))
 }
+
+stop("--ok\n")
 
 # sort the TADs by decreasing withinCoexpr
 # plot level of coexpr within and between on the same plot

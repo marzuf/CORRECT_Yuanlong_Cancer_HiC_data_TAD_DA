@@ -12,7 +12,7 @@ startTime <- Sys.time()
 
 setDir <- ""
 
-outFold <- "EMPPVAL_MEANTADCORR_RANK"
+outFold <- "EMPPVAL_MEANTADFC_RANK"
 dir.create(outFold)
 
 require(foreach)

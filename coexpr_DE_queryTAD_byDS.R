@@ -220,102 +220,102 @@ rankingVars <- c( "meanFC_rank", "meanCorr_rank", "avg_rank",
 tad_coexpr_fc_DT$dataset_plot <- gsub("/", "_", tad_coexpr_fc_DT$dataset) # otherwise issue to save file
 
 
-subsetVar = subset_vars[1]
-for(subsetVar in subset_vars) {
-  if(subsetVar == "all") {
-    subset_levels <- ""
-  } else {
-    subset_levels <- unique(tad_coexpr_fc_DT[, subsetVar])  
-  }
-  var = subset_levels[1]
-  for(var in subset_levels) {
-    if(subsetVar == "all") {
-      stopifnot(var == "")
-      curr_DT <- tad_coexpr_fc_DT
-    } else {
-        curr_DT <- tad_coexpr_fc_DT[tad_coexpr_fc_DT[, paste0(subsetVar)] == var,]
-    }
-    stopifnot(nrow(curr_DT) > 0)
-    rank_var = rankingVars[1]
-    for(rank_var in rankingVars){
-      stopifnot(rank_var %in% colnames(curr_DT))
-      ranked_curr_DT <- curr_DT[order(curr_DT[,rank_var]),]
-      
-      
-      outFile <- file.path(outFolder, paste0(subsetVar, "_", var, "_", rank_var, "_nTop", nTop, "_densplot.", plotType ))
-      do.call(plotType, list(outFile, height=myHeight, width=myWidth))
-      densplot(
-        y = curr_DT$meanCorr,
-        x = curr_DT$meanFC,
-        cex.lab=myCexLab,
-        cex.axis=myCexAxis,
-        ylab="meanCorr",
-        xlab = "meanFC",
-        cex = 0.5,
-        main = paste0(subsetVar, " - ", var, " - ", rank_var)
-      )
-      points(x = ranked_curr_DT$meanFC[1:nTop],
-             y = ranked_curr_DT$meanCorr[1:nTop],
-            pch = 4,
-            col="red",
-            cex=1.5
-             )
-      text(x = ranked_curr_DT$meanFC[1:nTop],
-             y = ranked_curr_DT$meanCorr[1:nTop],
-           labels = paste0(ranked_curr_DT$dataset[1:nTop],"\n", ranked_curr_DT$region[1:nTop]),
-             pch = 4,
-             col="red",
-             cex=0.7
-      )
-      foo <- dev.off()
-      cat(paste0("... written: ", outFile, "\n"))
-      
-      
-      i=1
-      # topTable_DT <- foreach(i = 1:nTop, .combine='rbind') %dopar% {
-      plotList <- list()
-        topTable_DT <- foreach(i = 1:nTop, .combine='rbind') %do% {
-        i_hicds <- dirname(ranked_curr_DT$dataset[i])
-        i_exprds <- basename(ranked_curr_DT$dataset[i])
-        i_tad <- basename(ranked_curr_DT$region[i])
-        
-        
-        plotList[[i]] <- plot_lolliTAD_ds(exprds = i_exprds,
-                         hicds = i_hicds,
-                         all_TADs = i_tad,
-                         orderByLolli = "startPos")
-        
-        
-        tmpDT <- get_tad_symbols_DT(hicds = i_hicds,
-                           exprds = i_exprds,
-                           region = i_tad,
-                           mainPipFolder = pipOutFolder
-                           )
-        otherCols <- colnames(tmpDT)
-        tmpDT$iTop <- i
-        tmpDT[,c("iTop", otherCols)]
-      } # end-foreach iterating over the "n" top TADs
-      # subset_vars (subsetVar) -> subset_levels (var) -> rankingVars (rank_var)
-      outFile <- file.path(outFolder, paste0(subsetVar, "_", var, "_", rank_var, "_nTop", nTop, ".txt" ))
-      cat(outFile, "\n")
-      write.table(topTable_DT, col.names=TRUE, row.names=FALSE, sep="\t", append=FALSE, quote=FALSE, file = outFile)
-      cat(paste0("... written: ", outFile, "\n"))
-      
-      mytit <- paste0(subsetVar, " - ", var, " - ", rank_var, " - ", nTop)
-      all_plots <- do.call(grid.arrange, c(plotList,  list(ncol=ifelse(nTop == 1, 1, 2), top=textGrob(mytit, gp=gpar(fontsize=20,font=2)))))
-      
+                                        #subsetVar = subset_vars[1]
+                                        #for(subsetVar in subset_vars) {
+                                        #  if(subsetVar == "all") {
+                                        #    subset_levels <- ""
+                                        #  } else {
+                                        #    subset_levels <- unique(tad_coexpr_fc_DT[, subsetVar])  
+                                        #  }
+                                        #  var = subset_levels[1]
+                                        #  for(var in subset_levels) {
+                                        #    if(subsetVar == "all") {
+                                        #      stopifnot(var == "")
+                                        #      curr_DT <- tad_coexpr_fc_DT
+                                        #    } else {
+                                        #        curr_DT <- tad_coexpr_fc_DT[tad_coexpr_fc_DT[, paste0(subsetVar)] == var,]
+                                        #    }
+                                        #    stopifnot(nrow(curr_DT) > 0)
+                                        #    rank_var = rankingVars[1]
+                                        #    for(rank_var in rankingVars){
+                                        #      stopifnot(rank_var %in% colnames(curr_DT))
+                                        #      ranked_curr_DT <- curr_DT[order(curr_DT[,rank_var]),]
+                                        #      
+                                        #      
+                                        #      outFile <- file.path(outFolder, paste0(subsetVar, "_", var, "_", rank_var, "_nTop", nTop, "_densplot.", plotType ))
+                                        #      do.call(plotType, list(outFile, height=myHeight, width=myWidth))
+                                        #      densplot(
+                                        #        y = curr_DT$meanCorr,
+                                        #        x = curr_DT$meanFC,
+                                        #        cex.lab=myCexLab,
+                                        #        cex.axis=myCexAxis,
+                                        #        ylab="meanCorr",
+                                        #        xlab = "meanFC",
+                                        #        cex = 0.5,
+                                        #        main = paste0(subsetVar, " - ", var, " - ", rank_var)
+                                        #      )
+                                        #      points(x = ranked_curr_DT$meanFC[1:nTop],
+                                        #             y = ranked_curr_DT$meanCorr[1:nTop],
+                                        #            pch = 4,
+                                        #            col="red",
+                                        #            cex=1.5
+                                        #             )
+                                        #      text(x = ranked_curr_DT$meanFC[1:nTop],
+                                        #             y = ranked_curr_DT$meanCorr[1:nTop],
+                                        #           labels = paste0(ranked_curr_DT$dataset[1:nTop],"\n", ranked_curr_DT$region[1:nTop]),
+                                        #             pch = 4,
+                                        #             col="red",
+                                        #             cex=0.7
+                                        #      )
+                                        #      foo <- dev.off()
+                                        #      cat(paste0("... written: ", outFile, "\n"))
+                                        #      
+                                        #      
+                                        #      i=1
+                                        #      # topTable_DT <- foreach(i = 1:nTop, .combine='rbind') %dopar% {
+                                        #      plotList <- list()
+                                        #        topTable_DT <- foreach(i = 1:nTop, .combine='rbind') %do% {
+                                        #        i_hicds <- dirname(ranked_curr_DT$dataset[i])
+                                        #        i_exprds <- basename(ranked_curr_DT$dataset[i])
+                                        #        i_tad <- basename(ranked_curr_DT$region[i])
+                                        #        
+                                        #        
+                                        #        plotList[[i]] <- plot_lolliTAD_ds(exprds = i_exprds,
+                                        #                         hicds = i_hicds,
+                                        #                         all_TADs = i_tad,
+                                        #                         orderByLolli = "startPos")
+                                        #        
+                                        #        
+                                        #        tmpDT <- get_tad_symbols_DT(hicds = i_hicds,
+                                        #                           exprds = i_exprds,
+                                        #                           region = i_tad,
+                                        #                           mainPipFolder = pipOutFolder
+                                        #                           )
+                                        #        otherCols <- colnames(tmpDT)
+                                        #        tmpDT$iTop <- i
+                                        #        tmpDT[,c("iTop", otherCols)]
+                                        #      } # end-foreach iterating over the "n" top TADs
+                                        #      # subset_vars (subsetVar) -> subset_levels (var) -> rankingVars (rank_var)
+                                        #      outFile <- file.path(outFolder, paste0(subsetVar, "_", var, "_", rank_var, "_nTop", nTop, ".txt" ))
+                                        #      cat(outFile, "\n")
+                                        #      write.table(topTable_DT, col.names=TRUE, row.names=FALSE, sep="\t", append=FALSE, quote=FALSE, file = outFile)
+                                        #      cat(paste0("... written: ", outFile, "\n"))
+                                        #      
+                                        #      mytit <- paste0(subsetVar, " - ", var, " - ", rank_var, " - ", nTop)
+                                        #      all_plots <- do.call(grid.arrange, c(plotList,  list(ncol=ifelse(nTop == 1, 1, 2), top=textGrob(mytit, gp=gpar(fontsize=20,font=2)))))
+                                        #      
 
-      outFile <- file.path(outFolder, paste0(subsetVar, "_", var, "_", rank_var, "_nTop", nTop, ".", plotType ))
-      
-      outWidthGG <- 20
-      outHeightGG <- min(c(7 * nTop/2, 49))
-      
-      ggsave(filename = outFile, all_plots, width=outWidthGG, height = outHeightGG)
-      cat("... written: ", outFile, "\n")
-      
-    } # end-for iterating over rankingVar # => rank_var in rankingVars (e.g. "meanCorr_rank")
-  } # end-for iterating over levels of data subset #   for(var in subset_levels) (e.g. "subtypes")
-} # end-for iterating over subset data # for(subsetVar in subset_vars) (e.g. "cmpType")
+                                        #      outFile <- file.path(outFolder, paste0(subsetVar, "_", var, "_", rank_var, "_nTop", nTop, ".", plotType ))
+                                        #      
+                                        #      outWidthGG <- 20
+                                        #      outHeightGG <- min(c(7 * nTop/2, 49))
+                                        #      
+                                        #      ggsave(filename = outFile, all_plots, width=outWidthGG, height = outHeightGG)
+                                        #      cat("... written: ", outFile, "\n")
+                                        #      
+                                        #    } # end-for iterating over rankingVar # => rank_var in rankingVars (e.g. "meanCorr_rank")
+                                        #  } # end-for iterating over levels of data subset #   for(var in subset_levels) (e.g. "subtypes")
+                                        #} # end-for iterating over subset data # for(subsetVar in subset_vars) (e.g. "cmpType")
 
 #################################################################
 ################################################################# HIGH FC and HIGH WITHIN COEXPR - all datasets separately
@@ -335,8 +335,7 @@ rankingVars <- c( "meanFC_rank", "meanCorr_rank", "avg_rank",
 tad_coexpr_fc_DT$dataset_plot <- gsub("/", "_", tad_coexpr_fc_DT$dataset) # otherwise issue to save file
 
 all_ds <-  unique(tad_coexpr_fc_DT$dataset_plot)
-
-
+#all_ds=all_ds[1]
 
   for(ds in all_ds) {
     

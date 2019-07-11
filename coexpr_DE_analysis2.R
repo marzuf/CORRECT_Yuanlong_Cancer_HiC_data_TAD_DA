@@ -1,10 +1,10 @@
-# Rscript coexpr_DE_analysis_withinOnly_CORRECT.R
+# Rscript coexpr_DE_analysis2.R
 
-script_name <- "coexpr_DE_analysis_withinOnly_CORRECT"
+script_name <- "coexpr_DE_analysis2.R"
 
 startTime <- Sys.time()
 
-cat("> START coexpr_DE_analysis_withinOnly_CORRECT \n")
+cat("> START coexpr_DE_analysis2.R \n")
 
 SSHFS <- FALSE
 
@@ -28,10 +28,9 @@ windowSizeBp <- 500*10^3
 options(scipen=100)
 
 
-outFolder <- "COEXPR_DE_ANALYSIS_WITHINONLY_CORRECT"
+outFolder <- "COEXPR_DE_ANALYSIS2"
 dir.create(outFolder, recursive=TRUE)
 
-dataFolder <- "COEXPR_BETWEEN_WITHIN_WITHINONLY"
 
 corrMet <- "pearson"
 pipOutFolder <- file.path("PIPELINE", "OUTPUT_FOLDER")
@@ -40,13 +39,20 @@ stopifnot(dir.exists(pipOutFolder))
 all_fc_files <- list.files(pipOutFolder, recursive = TRUE, pattern="all_meanLogFC_TAD.Rdata", full.names = FALSE)
 stopifnot(length(all_fc_files) > 0)
 
+
+all_meanCorr_files <- list.files(pipOutFolder, recursive = TRUE, pattern="all_meanCorr_TAD.Rdata", full.names = FALSE)
+stopifnot(length(all_meanCorr_files) > 0)
+
+all_meanCorrCond1_files <- list.files(pipOutFolder, recursive = TRUE, pattern="all_meanCorr_TAD_cond1.Rdata", full.names = FALSE)
+stopifnot(length(all_meanCorrCond1_files) > 0)
+
+
+all_meanCorrCond2_files <- list.files(pipOutFolder, recursive = TRUE, pattern="all_meanCorr_TAD_cond2.Rdata", full.names = FALSE)
+stopifnot(length(all_meanCorrCond2_files) > 0)
+
 all_pvalcomb_files <- list.files(pipOutFolder, recursive = TRUE, pattern="emp_pval_combined.Rdata", full.names = FALSE)
 stopifnot(length(all_pvalcomb_files) > 0)
 
-dataFile <- file.path(dataFolder, "allData_within_between_coexpr.Rdata")
-cat(dataFile, "\n")
-stopifnot(file.exists(dataFile))
-allData_within_between_coexpr <- eval(parse(text = load(dataFile)))
 
 all_ratioDown_files <- list.files(pipOutFolder, recursive = TRUE, pattern="all_obs_ratioDown.Rdata", full.names = FALSE)
 stopifnot(length(all_ratioDown_files) > 0)
@@ -57,97 +63,61 @@ stopifnot(length(all_fc_files) == length(all_pvalcomb_files) )
 # sort the TADs by decreasing withinCoexpr
 # plot level of coexpr within and between on the same plot
 
-tad_coexpr_DT <- data.frame(
-  dataset = as.character(unlist(lapply(1:length(allData_within_between_coexpr), function(i) {
-    ds_name <- names(allData_within_between_coexpr)[i]
-    ds_name <- gsub("^CREATE_COEXPR_SORTNODUP/", "", ds_name)
-    ds_name <- gsub("/pearson/coexprDT.Rdata$", "", ds_name)
-    rep(ds_name, length(allData_within_between_coexpr[[i]]))
-  }))),
-  region = as.character(unlist(lapply(1:length(allData_within_between_coexpr), function(i) {
-    names(allData_within_between_coexpr[[i]])
-  }))),
-  
-  withinCoexpr = as.numeric(unlist(lapply(allData_within_between_coexpr, 
-                                          function(sublist) lapply(sublist, function(x) x[["withinCoexpr"]])))),
 
-  withinCoexpr_cond1 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
-                                                function(sublist) lapply(sublist, function(x) x[["withinCoexpr_cond1"]])))),
- 
-  
-  withinCoexpr_cond2 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
-                                                function(sublist) lapply(sublist, function(x) x[["withinCoexpr_cond2"]])))),
-
-  
-  
-  stringsAsFactors = FALSE
-)
-tad_coexpr_DT <- tad_coexpr_DT[order(tad_coexpr_DT$withinCoexpr, decreasing = TRUE),]
-tad_coexpr_DT$TADrank <- 1:nrow(tad_coexpr_DT)
-
-
-allData_within_between_coexpr_s=allData_within_between_coexpr
-for(j in 1:38) {
-  allData_within_between_coexpr = allData_within_between_coexpr_s[j]
-  dataset = as.character(unlist(lapply(1:length(allData_within_between_coexpr), function(i) {
-    ds_name <- names(allData_within_between_coexpr)[i]
-    ds_name <- gsub("^CREATE_COEXPR_SORTNODUP/", "", ds_name)
-    ds_name <- gsub("/pearson/coexprDT.Rdata$", "", ds_name)
-    rep(ds_name, length(allData_within_between_coexpr[[i]]))
-  })))
-  region = as.character(unlist(lapply(1:length(allData_within_between_coexpr), function(i) {
-    names(allData_within_between_coexpr[[i]])
-  })))
-  
-  withinCoexpr = as.numeric(unlist(lapply(allData_within_between_coexpr, 
-                                          function(sublist) lapply(sublist, function(x) x[["withinCoexpr"]]))))
-  
-  
-  
-  
-  withinCoexpr_cond1 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
-                                                function(sublist) lapply(sublist, function(x) x[["withinCoexpr_cond1"]]))))
-  
-  
-  withinCoexpr_cond2 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
-                                                function(sublist) lapply(sublist, function(x) x[["withinCoexpr_cond2"]]))))
-  
-  
-  
-  length(dataset)
-  length(region)
-  length(withinCoexpr)
-  
-  length(withinCoexpr_cond1)
-  
-  length(withinCoexpr_cond2)
-  
-  
-  # length(dataset)
-  stopifnot( length(region) == length(dataset))
-  stopifnot( length(withinCoexpr) == length(dataset))
-  
-  stopifnot( length(withinCoexpr_cond1) == length(dataset))
-  
-  stopifnot( length(withinCoexpr_cond2) == length(dataset))
-  
-  
+### BUILD THE meanCorr TABLE
+rd_file = all_meanCorrCond1_files[1]
+mCcond1_DT <- foreach(rd_file = all_meanCorrCond1_files, .combine = 'rbind') %dopar% {
+  curr_file <- file.path(pipOutFolder,rd_file)
+  stopifnot(file.exists(curr_file))
+  tad_rd <- eval(parse(text = load(curr_file)))
+  dataset <- dirname(dirname(rd_file))
+  data.frame(
+    dataset = dataset,
+    region = names(tad_rd),
+    withinCoexpr_cond1 = as.numeric(tad_rd),
+    stringsAsFactors = FALSE
+  )
 }
 
 
+### BUILD THE meanCorr TABLE
+rd_file = all_meanCorrCond2_files[1]
+mCcond2_DT <- foreach(rd_file = all_meanCorrCond2_files, .combine = 'rbind') %dopar% {
+  curr_file <- file.path(pipOutFolder,rd_file)
+  stopifnot(file.exists(curr_file))
+  tad_rd <- eval(parse(text = load(curr_file)))
+  dataset <- dirname(dirname(rd_file))
+  data.frame(
+    dataset = dataset,
+    region = names(tad_rd),
+    withinCoexpr_cond2 = as.numeric(tad_rd),
+    stringsAsFactors = FALSE
+  )
+}
 
+### BUILD THE meanCorr TABLE
+rd_file = all_meanCorr_files[1]
+mC_DT <- foreach(rd_file = all_meanCorr_files, .combine = 'rbind') %dopar% {
+  curr_file <- file.path(pipOutFolder,rd_file)
+  stopifnot(file.exists(curr_file))
+  tad_rd <- eval(parse(text = load(curr_file)))
+  dataset <- dirname(dirname(rd_file))
+  data.frame(
+    dataset = dataset,
+    region = names(tad_rd),
+    withinCoexpr = as.numeric(tad_rd),
+    stringsAsFactors = FALSE
+  )
+}
 
+tad_coexpr_DT <- merge(mC_DT, mCcond1_DT, by=c("dataset", "region"))
+stopifnot(nrow(tad_coexpr_DT) == nrow(mC_DT))
+stopifnot(nrow(mC_DT) == nrow(mCcond1_DT))
+stopifnot(!is.na(tad_coexpr_DT))
 
-
-
-
-
-
-
-
-
-
-
+tad_coexpr_DT <- merge(tad_coexpr_DT, mCcond2_DT, by=c("dataset", "region"))
+stopifnot(nrow(tad_coexpr_DT) == nrow(mCcond2_DT))
+stopifnot(!is.na(tad_coexpr_DT))
 
 
 
@@ -166,7 +136,16 @@ rD_DT <- foreach(rd_file = all_ratioDown_files, .combine = 'rbind') %dopar% {
   )
 }
 
-
+#### BUILD THE CPTMT SCORE TABLE
+#score_file = all_domainScore_files[1]
+#score_DT <- foreach(score_file = all_domainScore_files, .combine = 'rbind') %dopar% {
+#  curr_file <- file.path(score_file)
+#  stopifnot(file.exists(curr_file))
+#  curr_DT <- read.delim(curr_file, header=F, 
+#                        col.names = c("chromo", "start", "end", "region", "score"))
+#  curr_DT$dataset <- dirname(dirname(curr_file))
+#  curr_DT
+#}
 
 ### BUILD THE LOGFC TABLE
 fc_file = all_fc_files[1]
@@ -226,6 +205,9 @@ tad_coexpr_fc_DT$TADrank <- 1:nrow(tad_coexpr_fc_DT)
 tad_coexpr_fc_DT$withinDiffCond1Cond2 <- (tad_coexpr_fc_DT$withinCoexpr_cond1 - tad_coexpr_fc_DT$withinCoexpr_cond2)
 tad_coexpr_fc_DT$withinRatioCond1Cond2 <- (tad_coexpr_fc_DT$withinCoexpr_cond1 / tad_coexpr_fc_DT$withinCoexpr_cond2)
 tad_coexpr_fc_DT$withinChangeratioCond1Cond2 <- (tad_coexpr_fc_DT$withinCoexpr_cond2 - tad_coexpr_fc_DT$withinCoexpr_cond1)/tad_coexpr_fc_DT$withinCoexpr_cond1
+
+
+
 
 
 
@@ -333,8 +315,6 @@ myplot_colplot(xvar,yvar,mycols)
 
 
 
-
-
 ##########################
 ### detect "disruption": those with change in coexpr => coexpr cond2 vs coexpr cond1
 ##########################
@@ -365,10 +345,6 @@ myplot_colplot(xvar,yvar,mycols_mut, addCurve = TRUE,
                dt = tad_coexpr_fc_DT[tad_coexpr_fc_DT$cmpType == "wt_vs_mut",] , outPrefix = "wt_vs_mut_")
 
 
-
-
-
-
 ##########################
 ### detect those that function as regulatory unit and DE: those with high FC and high diff. between-within => betw-within vs. FC expr
 ##########################
@@ -387,6 +363,12 @@ myplot_colplot(xvar,yvar,mycols)
 
 
 
+
+
+
+
+# ######################################################################################
+# ######################################################################################
 # ######################################################################################
 cat("*** DONE\n")
 cat(paste0(startTime, "\n", Sys.time(), "\n"))

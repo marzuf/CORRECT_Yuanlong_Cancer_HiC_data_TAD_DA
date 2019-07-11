@@ -30,7 +30,7 @@ windowSizeBp <- 500*10^3
 options(scipen=100)
 
 
-outFolder <- "COEXPR_BETWEEN_WITHIN_ALL"
+outFolder <- "COEXPR_BETWEEN_WITHIN_ALL_2"
 dir.create(outFolder, recursive=TRUE)
 
 corrMet <- "pearson"
@@ -98,6 +98,10 @@ if(buildData) {
   }
   #stop("--ok\n")
 
+  # coexprFiles <- coexprFiles[grepl("ENCSR444WCZ_A549_40kb", coexprFiles) & grepl("TCGAluad_mutKRAS_mutEGFR", coexprFiles)]
+  # coexprFilesOutNames <- coexprFiles
+
+    # 
   allData_within_between_coexpr <- foreach(coexprDataFile = coexprFiles) %do% {
     
     cat("... start ", coexprDataFile, " \n")
@@ -393,6 +397,25 @@ if(buildData) {
       
       #####################################################################################################
       
+      
+      withinCoexpr = mean(within_coexprDT$coexpr)
+      withinCoexpr_cond1 = mean(within_coexprDT_cond1$coexpr)
+      withinCoexpr_cond2 = mean(within_coexprDT_cond2$coexpr)
+      betweenAllCoexpr = mean(betweenAll_coexprDT$coexpr)
+      betweenAllCoexpr_cond1 = mean(betweenAll_coexprDT_cond1$coexpr)
+      betweenAllCoexpr_cond2 = mean(betweenAll_coexprDT_cond2$coexpr)
+      betweenKbCoexpr = mean(betweenKb_coexprDT$coexpr)
+      betweenKbCoexpr_cond1 = mean(betweenKb_coexprDT_cond1$coexpr)
+      betweenKbCoexpr_cond2 = mean(betweenKb_coexprDT_cond2$coexpr)
+      betweenNbrCoexpr = mean(betweenNbr_coexprDT$coexpr)
+      betweenNbrCoexpr_cond1 = mean(betweenNbr_coexprDT_cond1$coexpr)
+      betweenNbrCoexpr_cond2 = mean(betweenNbr_coexprDT_cond2$coexpr)
+      
+      if(is.null(withinCoexpr) | is.null(withinCoexpr_cond1) | is.null(withinCoexpr_cond2)){
+        stop(paste0("ONE IS NULL for: ", coexprDataFile, "!\n"))
+      }
+      
+      
       list(withinCoexpr = mean(within_coexprDT$coexpr),
            withinCoexpr_cond1 = mean(within_coexprDT_cond1$coexpr),
            withinCoexpr_cond2 = mean(within_coexprDT_cond2$coexpr),
@@ -420,6 +443,9 @@ if(buildData) {
   outFile <- file.path(outFolder, "allData_within_between_coexpr.Rdata")
   allData_within_between_coexpr <- eval(parse(text = load(outFile)))
 }
+
+
+stop("--ok\n")
 
 # sort the TADs by decreasing withinCoexpr
 # plot level of coexpr within and between on the same plot

@@ -1,6 +1,6 @@
 # Rscript expr_variance_byTAD.R log2fpkm
 
-buildTable <- TRUE
+buildTable <- FALSE
 
 cat("> START: expr_variance_byTAD.R\n")
 

@@ -28,7 +28,7 @@ myCexLab <- 1.2
 outFolder <- "EXPRVARIANCE_VS_EXPRCORR"
 dir.create(outFolder, recursive=TRUE)
 
-coexprFile <- file.path("COEXPR_DE_ANALYSIS", "tad_coexpr_fc_DT.Rdata")
+coexprFile <- file.path("COEXPR_DE_ANALYSIS2", "tad_coexpr_fc_DT.Rdata")
 stopifnot(file.exists(coexprFile))
 coexprDT <- eval(parse(text = load(coexprFile)))
 
@@ -60,8 +60,8 @@ stopifnot(nrow(coexprDT) == nrow(varDT))
 
 varDT_short <- varDT[,c("dataset", "region", "tadMeanVar", "tadMeanVar_cond1", "tadMeanVar_cond2")]
 coexprDT_short <- coexprDT[,c("dataset", "region", "cmpCol",
-                              "withinCoexpr", "withinCoexpr_cond1", "withinCoexpr_cond2", 
-                              "betweenNbrCoexpr", "betweenNbrCoexpr_cond1", "betweenNbrCoexpr_cond2")]
+                              "withinCoexpr", "withinCoexpr_cond1", "withinCoexpr_cond2")]
+                              # "betweenNbrCoexpr", "betweenNbrCoexpr_cond1", "betweenNbrCoexpr_cond2")]
 rownames(varDT_short) <- NULL
 rownames(coexprDT_short) <- NULL
 cat("... start merging:\n")

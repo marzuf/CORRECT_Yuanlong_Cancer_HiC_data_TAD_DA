@@ -1,10 +1,10 @@
-# Rscript coexpr_DE_analysis_withinOnly_CORRECT.R
+# Rscript coexpr_DE_analysis.R
 
-script_name <- "coexpr_DE_analysis_withinOnly_CORRECT"
+script_name <- "coexpr_DE_analysis.R"
 
 startTime <- Sys.time()
 
-cat("> START coexpr_DE_analysis_withinOnly_CORRECT \n")
+cat("> START coexpr_DE_analysis.R \n")
 
 SSHFS <- FALSE
 
@@ -28,7 +28,7 @@ windowSizeBp <- 500*10^3
 options(scipen=100)
 
 
-outFolder <- "COEXPR_DE_ANALYSIS_WITHINONLY_CORRECT"
+outFolder <- "COEXPR_DE_ANALYSIS"
 dir.create(outFolder, recursive=TRUE)
 
 dataFolder <- "COEXPR_BETWEEN_WITHIN_WITHINONLY"
@@ -47,6 +47,9 @@ dataFile <- file.path(dataFolder, "allData_within_between_coexpr.Rdata")
 cat(dataFile, "\n")
 stopifnot(file.exists(dataFile))
 allData_within_between_coexpr <- eval(parse(text = load(dataFile)))
+
+#all_domainScore_files <- list.files(".", recursive = TRUE, pattern="_final_domains_withScore.txt", full.names = FALSE)
+#stopifnot(length(all_domainScore_files) > 0)
 
 all_ratioDown_files <- list.files(pipOutFolder, recursive = TRUE, pattern="all_obs_ratioDown.Rdata", full.names = FALSE)
 stopifnot(length(all_ratioDown_files) > 0)
@@ -70,24 +73,29 @@ tad_coexpr_DT <- data.frame(
   
   withinCoexpr = as.numeric(unlist(lapply(allData_within_between_coexpr, 
                                           function(sublist) lapply(sublist, function(x) x[["withinCoexpr"]])))),
-
+  
+  
   withinCoexpr_cond1 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
                                                 function(sublist) lapply(sublist, function(x) x[["withinCoexpr_cond1"]])))),
- 
-  
+  betweenAllCoexpr_cond1 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+                                                    function(sublist) lapply(sublist, function(x) x[["betweenAllCoexpr_cond1"]])))),
+  betweenKbCoexpr_cond1 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+                                                   function(sublist) lapply(sublist, function(x) x[["betweenKbCoexpr_cond1"]])))),
+  betweenNbrCoexpr_cond1 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+                                                    function(sublist) lapply(sublist, function(x) x[["betweenNbrCoexpr_cond1"]])))),
   withinCoexpr_cond2 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
                                                 function(sublist) lapply(sublist, function(x) x[["withinCoexpr_cond2"]])))),
-
-  
+  betweenAllCoexpr_cond2 = as.numeric(unlist(lapply(allData_within_between_coexpr,
+                                                    function(sublist) lapply(sublist, function(x) x[["betweenAllCoexpr_cond2"]])))),
+  betweenKbCoexpr_cond2 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+                                                   function(sublist) lapply(sublist, function(x) x[["betweenKbCoexpr_cond2"]])))),
+  betweenNbrCoexpr_cond2 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+                                                    function(sublist) lapply(sublist, function(x) x[["betweenNbrCoexpr_cond2"]])))),
   
   stringsAsFactors = FALSE
 )
-tad_coexpr_DT <- tad_coexpr_DT[order(tad_coexpr_DT$withinCoexpr, decreasing = TRUE),]
-tad_coexpr_DT$TADrank <- 1:nrow(tad_coexpr_DT)
-
-
-allData_within_between_coexpr_s=allData_within_between_coexpr
-for(j in 1:38) {
+# allData_within_between_coexpr_s=allData_within_between_coexpr
+for(j in 9:38) {
   allData_within_between_coexpr = allData_within_between_coexpr_s[j]
   dataset = as.character(unlist(lapply(1:length(allData_within_between_coexpr), function(i) {
     ds_name <- names(allData_within_between_coexpr)[i]
@@ -102,35 +110,59 @@ for(j in 1:38) {
   withinCoexpr = as.numeric(unlist(lapply(allData_within_between_coexpr, 
                                           function(sublist) lapply(sublist, function(x) x[["withinCoexpr"]]))))
   
-  
-  
-  
+  betweenAllCoexpr = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+                                              function(sublist) lapply(sublist, function(x) x[["betweenAllCoexpr"]]))))
+  betweenKbCoexpr = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+                                             function(sublist) lapply(sublist, function(x) x[["betweenKbCoexpr"]]))))
+  betweenNbrCoexpr = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+                                              function(sublist) lapply(sublist, function(x) x[["betweenNbrCoexpr"]]))))
   withinCoexpr_cond1 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
                                                 function(sublist) lapply(sublist, function(x) x[["withinCoexpr_cond1"]]))))
-  
-  
+  betweenAllCoexpr_cond1 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+                                                    function(sublist) lapply(sublist, function(x) x[["betweenAllCoexpr_cond1"]]))))
+  betweenKbCoexpr_cond1 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+                                                   function(sublist) lapply(sublist, function(x) x[["betweenKbCoexpr_cond1"]]))))
+  betweenNbrCoexpr_cond1 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+                                                    function(sublist) lapply(sublist, function(x) x[["betweenNbrCoexpr_cond1"]]))))
   withinCoexpr_cond2 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
                                                 function(sublist) lapply(sublist, function(x) x[["withinCoexpr_cond2"]]))))
-  
+  betweenAllCoexpr_cond2 = as.numeric(unlist(lapply(allData_within_between_coexpr,
+                                                    function(sublist) lapply(sublist, function(x) x[["betweenAllCoexpr_cond2"]]))))
+  betweenKbCoexpr_cond2 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+                                                   function(sublist) lapply(sublist, function(x) x[["betweenKbCoexpr_cond2"]]))))
+  betweenNbrCoexpr_cond2 = as.numeric(unlist(lapply(allData_within_between_coexpr, 
+                                                    function(sublist) lapply(sublist, function(x) x[["betweenNbrCoexpr_cond2"]]))))
   
   
   length(dataset)
   length(region)
   length(withinCoexpr)
-  
+  length(betweenAllCoexpr)
+  length(betweenKbCoexpr)
+  length(betweenNbrCoexpr)
   length(withinCoexpr_cond1)
-  
+  length(betweenAllCoexpr_cond1)
+  length(betweenKbCoexpr_cond1)
+  length(betweenNbrCoexpr_cond1)
   length(withinCoexpr_cond2)
-  
+  length(betweenAllCoexpr_cond2)
+  length(betweenKbCoexpr_cond2)
+  length(betweenNbrCoexpr_cond2)
   
   # length(dataset)
   stopifnot( length(region) == length(dataset))
   stopifnot( length(withinCoexpr) == length(dataset))
-  
+  stopifnot( length(betweenAllCoexpr) == length(dataset))
+  stopifnot( length(betweenKbCoexpr) == length(dataset))
+  stopifnot( length(betweenNbrCoexpr) == length(dataset))
   stopifnot( length(withinCoexpr_cond1) == length(dataset))
-  
+  stopifnot( length(betweenAllCoexpr_cond1) == length(dataset))
+  stopifnot( length(betweenKbCoexpr_cond1) == length(dataset))
+  stopifnot( length(betweenNbrCoexpr_cond1) == length(dataset))
   stopifnot( length(withinCoexpr_cond2) == length(dataset))
-  
+  stopifnot( length(betweenAllCoexpr_cond2) == length(dataset))
+  stopifnot( length(betweenKbCoexpr_cond2) == length(dataset))
+  stopifnot( length(betweenNbrCoexpr_cond2) == length(dataset))
   
 }
 
@@ -140,16 +172,8 @@ for(j in 1:38) {
 
 
 
-
-
-
-
-
-
-
-
-
-
+tad_coexpr_DT <- tad_coexpr_DT[order(tad_coexpr_DT$withinCoexpr, decreasing = TRUE),]
+tad_coexpr_DT$TADrank <- 1:nrow(tad_coexpr_DT)
 
 ### BUILD THE ratio down TABLE
 rd_file = all_ratioDown_files[1]
@@ -166,7 +190,16 @@ rD_DT <- foreach(rd_file = all_ratioDown_files, .combine = 'rbind') %dopar% {
   )
 }
 
-
+#### BUILD THE CPTMT SCORE TABLE
+#score_file = all_domainScore_files[1]
+#score_DT <- foreach(score_file = all_domainScore_files, .combine = 'rbind') %dopar% {
+#  curr_file <- file.path(score_file)
+#  stopifnot(file.exists(curr_file))
+#  curr_DT <- read.delim(curr_file, header=F, 
+#                        col.names = c("chromo", "start", "end", "region", "score"))
+#  curr_DT$dataset <- dirname(dirname(curr_file))
+#  curr_DT
+#}
 
 ### BUILD THE LOGFC TABLE
 fc_file = all_fc_files[1]
@@ -227,12 +260,34 @@ tad_coexpr_fc_DT$withinDiffCond1Cond2 <- (tad_coexpr_fc_DT$withinCoexpr_cond1 - 
 tad_coexpr_fc_DT$withinRatioCond1Cond2 <- (tad_coexpr_fc_DT$withinCoexpr_cond1 / tad_coexpr_fc_DT$withinCoexpr_cond2)
 tad_coexpr_fc_DT$withinChangeratioCond1Cond2 <- (tad_coexpr_fc_DT$withinCoexpr_cond2 - tad_coexpr_fc_DT$withinCoexpr_cond1)/tad_coexpr_fc_DT$withinCoexpr_cond1
 
+tad_coexpr_fc_DT$withinBetweenAllDiffCond1 <- (tad_coexpr_fc_DT$withinCoexpr_cond1 - tad_coexpr_fc_DT$betweenAllCoexpr_cond1) 
+tad_coexpr_fc_DT$withinBetweenAllDiffCond2 <- (tad_coexpr_fc_DT$withinCoexpr_cond2 - tad_coexpr_fc_DT$betweenAllCoexpr_cond2) 
 
+
+tad_coexpr_fc_DT$withinBetweenNbrDiffCond1 <- (tad_coexpr_fc_DT$withinCoexpr_cond1 - tad_coexpr_fc_DT$betweenNbrCoexpr_cond1) 
+tad_coexpr_fc_DT$withinBetweenNbrDiffCond2 <- (tad_coexpr_fc_DT$withinCoexpr_cond2 - tad_coexpr_fc_DT$betweenNbrCoexpr_cond2) 
+
+
+tad_coexpr_fc_DT$withinBetweenKbDiffCond1 <- (tad_coexpr_fc_DT$withinCoexpr_cond1 - tad_coexpr_fc_DT$betweenKbCoexpr_cond1) 
+tad_coexpr_fc_DT$withinBetweenKbDiffCond2 <- (tad_coexpr_fc_DT$withinCoexpr_cond2 - tad_coexpr_fc_DT$betweenKbCoexpr_cond2) 
+
+
+tad_coexpr_fc_DT$withinBetweenDiffAll <- (tad_coexpr_fc_DT$withinCoexpr - tad_coexpr_fc_DT$betweenAllCoexpr) 
+tad_coexpr_fc_DT$withinBetweenRatioAll <- (tad_coexpr_fc_DT$withinCoexpr / tad_coexpr_fc_DT$betweenAllCoexpr) 
+
+tad_coexpr_fc_DT$withinBetweenDiffNbr <- (tad_coexpr_fc_DT$withinCoexpr - tad_coexpr_fc_DT$betweenNbrCoexpr) 
+tad_coexpr_fc_DT$withinBetweenRatioNbr <- (tad_coexpr_fc_DT$withinCoexpr / tad_coexpr_fc_DT$betweenNbrCoexpr) 
+
+tad_coexpr_fc_DT$withinBetweenDiffKb <- (tad_coexpr_fc_DT$withinCoexpr - tad_coexpr_fc_DT$betweenKbCoexpr) 
+tad_coexpr_fc_DT$withinBetweenRatioKb <- (tad_coexpr_fc_DT$withinCoexpr / tad_coexpr_fc_DT$betweenKbCoexpr) 
 
 
 # select only that with + coexpr in both condition -> I can take logFC
 
+tad_coexpr_fc_DT$withinBetwNbrLogFC <- log10(tad_coexpr_fc_DT$withinCoexpr/tad_coexpr_fc_DT$betweenNbrCoexpr)
 
+tad_coexpr_fc_DT$withinBetwNbrCond1LogFC <- log10(tad_coexpr_fc_DT$withinCoexpr_cond1/tad_coexpr_fc_DT$betweenNbrCoexpr_cond1)
+tad_coexpr_fc_DT$withinBetwNbrCond2LogFC <- log10(tad_coexpr_fc_DT$withinCoexpr_cond2/tad_coexpr_fc_DT$betweenNbrCoexpr_cond2)
 
 tad_coexpr_fc_DT$withinCond2WithinCond1LogFC <- log10(tad_coexpr_fc_DT$withinCoexpr_cond2/tad_coexpr_fc_DT$withinCoexpr_cond1)
 
@@ -331,7 +386,47 @@ xvar <- "withinDiffCond1Cond2"
 myplot_densplot(xvar,yvar)
 myplot_colplot(xvar,yvar,mycols)
 
+##########################
+### adj. pval. combined and withinBetweenCoexpr diff (kb)
+##########################
 
+yvar <- "adjPvalComb_log10"
+xvar <- "withinBetweenDiffKb"
+
+myplot_densplot(xvar,yvar)
+myplot_colplot(xvar,yvar,mycols)
+
+
+##########################
+### adj. pval. combined and withinBetweenCoexpr diff (nbr)
+##########################
+
+yvar <- "adjPvalComb_log10"
+xvar <- "withinBetweenDiffNbr"
+
+myplot_densplot(xvar,yvar)
+myplot_colplot(xvar,yvar,mycols)
+
+
+##########################
+### detect "disruption" and DE: those with high FC in expression and high FC in coexpression => FC coexpr vs. FC expr.
+##########################
+
+yvar <- "withinBetwNbrLogFC"
+xvar <- "meanFC"
+
+myplot_densplot(xvar,yvar)
+myplot_colplot(xvar,yvar,mycols)
+
+##########################
+### detect "disruption" and DE: those with high/low ratioDown and high FC in coexpression => FC coexpr vs. ratio Down
+##########################
+
+yvar <- "withinBetwNbrLogFC"
+xvar <- "ratioDown"
+
+myplot_densplot(xvar,yvar)
+myplot_colplot(xvar,yvar,mycols)
 
 
 
@@ -365,9 +460,39 @@ myplot_colplot(xvar,yvar,mycols_mut, addCurve = TRUE,
                dt = tad_coexpr_fc_DT[tad_coexpr_fc_DT$cmpType == "wt_vs_mut",] , outPrefix = "wt_vs_mut_")
 
 
+##########################
+### detect "disruption": those with change (or remain cohesive ?) in coexpr => betw-within cond2 vs betw-within cond1
+##########################
+yvar <- "withinBetweenNbrDiffCond2"
+xvar <- "withinBetweenNbrDiffCond1"
+
+myplot_densplot(xvar,yvar, addCurve = TRUE)
+myplot_colplot(xvar,yvar,mycols, addCurve = TRUE)
+
+myplot_densplot(xvar,yvar, addCurve = TRUE, 
+                dt = tad_coexpr_fc_DT[tad_coexpr_fc_DT$cmpType == "subtypes",] , outPrefix = "subtypes_")
+myplot_colplot(xvar,yvar,mycols_sub, addCurve = TRUE,
+               dt = tad_coexpr_fc_DT[tad_coexpr_fc_DT$cmpType == "subtypes",] , outPrefix = "subtypes_")
+
+myplot_densplot(xvar,yvar, addCurve = TRUE, 
+                dt = tad_coexpr_fc_DT[tad_coexpr_fc_DT$cmpType == "norm_vs_tumor",] , outPrefix = "norm_vs_tumor_")
+myplot_colplot(xvar,yvar,mycols_tumor, addCurve = TRUE,
+               dt = tad_coexpr_fc_DT[tad_coexpr_fc_DT$cmpType == "norm_vs_tumor",] , outPrefix = "norm_vs_tumor_")
+
+myplot_densplot(xvar,yvar, addCurve = TRUE, 
+                dt = tad_coexpr_fc_DT[tad_coexpr_fc_DT$cmpType == "wt_vs_mut",] , outPrefix = "wt_vs_mut_")
+myplot_colplot(xvar,yvar,mycols_mut, addCurve = TRUE,
+               dt = tad_coexpr_fc_DT[tad_coexpr_fc_DT$cmpType == "wt_vs_mut",] , outPrefix = "wt_vs_mut_")
 
 
+##########################
+### detect coordinated change in expression and DE: those with high FC and high coexpr => coexpr vs. FC expr
+##########################
+yvar <- "withinBetwNbrLogFC"
+xvar <- "meanFC"
 
+myplot_densplot(xvar,yvar)
+myplot_colplot(xvar,yvar,mycols)
 
 ##########################
 ### detect those that function as regulatory unit and DE: those with high FC and high diff. between-within => betw-within vs. FC expr
@@ -387,6 +512,53 @@ myplot_colplot(xvar,yvar,mycols)
 
 
 
+yvar <- "withinBetweenDiffNbr"
+xvar <- "meanFC"
+
+myplot_densplot(xvar,yvar)
+myplot_colplot(xvar,yvar,mycols)
+
+
+##########################
+# CPTMT SCORE
+##########################
+
+#score_DT$hicds <- score_DT$dataset
+#tad_coexpr_fc_DT$hicds  <- dirname(tad_coexpr_fc_DT$dataset)
+
+#all_DT <- merge(score_DT, tad_coexpr_fc_DT, by = c("hicds", "region"))
+
+#tad_coexpr_fc_DT <- all_DT
+
+#head(all_DT)
+
+#stopifnot(!is.na(all_DT$score))
+
+#yvar <- "meanFC"
+#xvar <- "score"
+#myplot_densplot(xvar,yvar)
+
+
+#yvar <- "withinCoexpr"
+#xvar <- "score"
+#myplot_densplot(xvar,yvar)
+
+#yvar <- "betweenAllCoexpr"
+#xvar <- "score"
+#myplot_densplot(xvar,yvar)
+
+#yvar <- "betweenKbCoexpr"
+#xvar <- "score"
+#myplot_densplot(xvar,yvar)
+
+#yvar <- "betweenNbrCoexpr"
+#xvar <- "score"
+#myplot_densplot(xvar,yvar)
+
+
+
+# ######################################################################################
+# ######################################################################################
 # ######################################################################################
 cat("*** DONE\n")
 cat(paste0(startTime, "\n", Sys.time(), "\n"))

@@ -103,8 +103,9 @@ step2=1    # run the pipeline
 # TAD_DE_pipSteps=( "5" "6" "7" "8c" "9" "10" "11" "13cleanInput" "14f2" "170revision2EZH2" )
 #TAD_DE_pipSteps=( "8c" "9" "10" "11" "13cleanInput" "14f2" "170revision2EZH2" )
 # done later because slow
-TAD_DE_pipSteps=( "6v2onlyW" "9v2" )
-
+#TAD_DE_pipSteps=( "4cond1" "4cond2" )
+#TAD_DE_pipSteps=( "9rank" )
+TAD_DE_pipSteps=( "10rank" "11rank" )
 
 
 # ./run_pipeline.sh GSE105381_HepG2_40kb TCGAlihc_norm_lihc   # 

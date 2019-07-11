@@ -1,7 +1,7 @@
 # Rscript expr_variance.R log2fpkm
 
 
-buildTable <- TRUE
+buildTable <- FALSE
 
 cat("> START: expr_variance.R\n")
 

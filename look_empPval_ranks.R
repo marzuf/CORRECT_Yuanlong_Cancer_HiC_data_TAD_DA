@@ -1,4 +1,18 @@
 # Rscript look_empPval_ranks.R
+# 
+# 
+# x1 = eval(parse(text=load("EMPPVAL_MEANTADFC_RANK/K562_40kb/TCGAlaml_wt_mutFLT3/emp_pval_meanLogFC_rank.Rdata")))
+# x2 = eval(parse(text=load("/media/electron/mnt/etemp/marie/Yuanlong_Cancer_HiC_data_TAD_DA/PIPELINE/OUTPUT_FOLDER/K562_40kb/TCGAlaml_wt_mutFLT3/9rank_runEmpPvalMeanTADLogFC/emp_pval_meanLogFC_rank.Rdata")))
+# setequal(names(x1), names(x2))
+# all(x1==x2)
+# 
+# y1 = eval(parse(text=load("EMPPVAL_MEANTADCORR_RANK/K562_40kb/TCGAlaml_wt_mutFLT3/emp_pval_meanCorr_rank.Rdata")))
+# y2 = eval(parse(text=load("/media/electron/mnt/etemp/marie/Yuanlong_Cancer_HiC_data_TAD_DA/PIPELINE/OUTPUT_FOLDER/K562_40kb/TCGAlaml_wt_mutFLT3/10rank_runEmpPvalMeanTADCorr/emp_pval_meanCorr_rank.Rdata")))
+# setequal(names(y1), names(y2))
+# all(y1[names(y1)]==y2[names(y1)])
+
+
+
 
 script_name <- "look_empPval_ranks.R"
 
@@ -39,6 +53,24 @@ stopifnot(length(all_pvalFC_files) > 0)
 
 all_pvalCorr_files <- list.files(pipOutFolder, recursive = TRUE, pattern="emp_pval_meanCorr.Rdata", full.names = TRUE)
 stopifnot(length(all_pvalCorr_files) > 0)
+
+all_ratio_files <- list.files(pipOutFolder, recursive = TRUE, pattern="all_obs_ratioDown.Rdata", full.names = TRUE)
+stopifnot(length(all_pvalCorr_files) > 0)
+
+### BUILD THE LOGFC TABLE
+fc_file = all_ratio_files[1]
+rD_DT <- foreach(fc_file = all_ratio_files, .combine = 'rbind') %dopar% {
+  tad_fc <- eval(parse(text = load(fc_file)))
+  hicds <- basename(dirname(dirname(dirname(fc_file))))
+  exprds <- basename(dirname(dirname(fc_file)))
+  data.frame(
+    hicds = hicds,
+    exprds = exprds, 
+    region = names(tad_fc),
+    ratioDown = as.numeric(tad_fc),
+    stringsAsFactors = FALSE
+  )
+}
 
 
 ### BUILD THE LOGFC TABLE
@@ -136,6 +168,9 @@ stopifnot(nrow(meanCorr_DT) == nrow(mcRankEmpPval_DT) )
 stopifnot(nrow(fcRankEmpPval_DT) == nrow(mcRankEmpPval_DT) )
 rankEmpPval_DT <- merge(fcRankEmpPval_DT, mcRankEmpPval_DT, by =c("hicds", "exprds", "region"), all = TRUE)
 
+
+
+
 outFile <- file.path(outFold, "rankEmpPval_DT.Rdata")
 save(rankEmpPval_DT, file = outFile)
 cat(paste0("... written: ", outFile, "\n"))
@@ -186,6 +221,12 @@ all_empPval_DT$empPval_comb_adj_log10 <- -log10(all_empPval_DT$empPval_comb_adj)
 
 all_empPval_DT$meanCorr_empPval_log10 <- -log10(all_empPval_DT$meanCorr_empPval)
 all_empPval_DT$meanFC_empPval_log10 <- -log10(all_empPval_DT$meanFC_empPval)
+
+
+all_empPval_DT <- merge(all_empPval_DT, rD_DT, by =c("hicds", "exprds", "region"), all = TRUE)
+stopifnot(nrow(all_empPval_DT) == nrow(rD_DT))
+stopinfot(!is.na(all_empPval_DT))
+
 
 outFile <- file.path(outFold, "all_empPval_DT.Rdata")
 save(all_empPval_DT, file = outFile)
@@ -399,6 +440,53 @@ addCorr(x=myx, y=myy, legPos="topleft")
 mtext(side = 3, text = paste0("nDS = ", nDS), font = 3)
 foo <- dev.off()
 cat(paste0("... written: ", outFile, "\n"))
+
+##########################################################################################################
+##########################################################################################################
+##########################################################################################################
+
+x_val <- "ratioDown"
+y_val <- "rank_empPval_comb_adj_log10"
+myx <- all_empPval_DT[,x_val]
+myy <- all_empPval_DT[,y_val]
+outFile <- file.path(outFold, paste0(y_val, "_vs_",x_val, ".", plotType))
+do.call(plotType, list(outFile, height=myHeight, width=myWidth))
+densplot(
+  x = myx,
+  y = myy,
+  xlab = paste0(x_val),
+  ylab = paste0(y_val),
+  main = paste0(y_val, " vs. ", x_val)
+)
+addCorr(x=myx, y=myy, legPos="topleft")
+mtext(side = 3, text = paste0("nDS = ", nDS), font = 3)
+foo <- dev.off()
+cat(paste0("... written: ", outFile, "\n"))
+
+
+
+##########################################################################################################
+##########################################################################################################
+##########################################################################################################
+
+x_val <- "ratioDown"
+y_val <- "empPval_comb_adj_log10"
+myx <- all_empPval_DT[,x_val]
+myy <- all_empPval_DT[,y_val]
+outFile <- file.path(outFold, paste0(y_val, "_vs_",x_val, ".", plotType))
+do.call(plotType, list(outFile, height=myHeight, width=myWidth))
+densplot(
+  x = myx,
+  y = myy,
+  xlab = paste0(x_val),
+  ylab = paste0(y_val),
+  main = paste0(y_val, " vs. ", x_val)
+)
+addCorr(x=myx, y=myy, legPos="topleft")
+mtext(side = 3, text = paste0("nDS = ", nDS), font = 3)
+foo <- dev.off()
+cat(paste0("... written: ", outFile, "\n"))
+
 
 
 # ######################################################################################

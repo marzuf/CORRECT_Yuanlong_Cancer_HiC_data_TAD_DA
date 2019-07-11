@@ -123,11 +123,14 @@ comb_empPval_DT <- foreach(corr_file = all_pvalComb_files, .combine = 'rbind') %
   tad_mC <- eval(parse(text = load(curr_file)))
   exprds <- basename(dirname(dirname(corr_file)))
   hicds <- basename(dirname(dirname(dirname(corr_file))))
+  notadj <- as.numeric(tad_mC)
+  adj <- p.adjust(notadj, method="BH")
   data.frame(
     hicds = hicds,
     exprds = exprds,
     region = names(tad_mC),
-    comb_empPval = as.numeric(tad_mC),
+    comb_empPval = notadj,
+    comb_empPval_adj = adj,
     stringsAsFactors = FALSE
   )
 }
@@ -169,11 +172,14 @@ combRank_empPval_DT <- foreach(corr_file = all_pvalCorr_rank_files, .combine = '
   tad_mC <- eval(parse(text = load(curr_file)))
   exprds <- basename(dirname(dirname(corr_file)))
   hicds <- basename(dirname(dirname(dirname(corr_file))))
+  notadj <- as.numeric(tad_mC)
+  adj <- p.adjust(notadj, method="BH")
   data.frame(
     hicds = hicds,
     exprds = exprds,
     region = names(tad_mC),
-    combRank_empPval = as.numeric(tad_mC),
+    combRank_empPval = notadj,
+    combRank_empPval_adj = adj,
     stringsAsFactors = FALSE
   )
 }
@@ -213,13 +219,15 @@ outFile <- file.path(outFold, "all_DT.Rdata")
 save(all_DT, file=outFile)
 cat("... written: ", outFile, "\n")
 
-all_DT$meanCorrRank_empPval_log10 <- log10(all_DT$meanCorrRank_empPval)
-all_DT$meanFCrank_empPval_log10 <- log10(all_DT$meanFCrank_empPval)
-all_DT$combRank_empPval_log10 <- log10(all_DT$combRank_empPval)
+all_DT$meanCorrRank_empPval_log10 <- -log10(all_DT$meanCorrRank_empPval)
+all_DT$meanFCrank_empPval_log10 <- -log10(all_DT$meanFCrank_empPval)
+all_DT$combRank_empPval_log10 <- -log10(all_DT$combRank_empPval)
 
-all_DT$meanCorr_empPval_log10 <- log10(all_DT$meanCorr_empPval)
-all_DT$meanFC_empPval_log10 <- log10(all_DT$meanFC_empPval)
-all_DT$comb_empPval_log10 <- log10(all_DT$comb_empPval)
+all_DT$meanCorr_empPval_log10 <- -log10(all_DT$meanCorr_empPval)
+all_DT$meanFC_empPval_log10 <- -log10(all_DT$meanFC_empPval)
+all_DT$comb_empPval_log10 <- -log10(all_DT$comb_empPval)
+
+all_DT$avgRank <- 0.5*(all_DT$meanFC_rank + all_DT$meanCorr_rank)
 
 ############################################################################
 ############################################################################
@@ -376,8 +384,9 @@ cat("... written: ", outFile, "\n")
 ############################################################################
 ############################################################################
 
-all_DT$comb_empPval_adj <- p.adjust(all_DT$comb_empPval, method="BH")
-all_DT$combRank_empPval_adj <- p.adjust(all_DT$combRank_empPval, method="BH")
+### WRONG =>> SHOULD BE DONE FOR EACH DATASET SEPARATELY !!!!!!!!
+# all_DT$comb_empPval_adj <- p.adjust(all_DT$comb_empPval, method="BH")
+# all_DT$combRank_empPval_adj <- p.adjust(all_DT$combRank_empPval, method="BH")
 
 all_DT$comb_empPval_adj_log10 <- -log10(all_DT$comb_empPval_adj)
 all_DT$combRank_empPval_adj_log10 <- -log10(all_DT$combRank_empPval_adj) 
@@ -409,6 +418,86 @@ addCorr(
 foo <- dev.off()
 cat("... written: ", outFile, "\n")
 
+
+############################################################################
+############################################################################
+
+### WRONG =>> SHOULD BE DONE FOR EACH DATASET SEPARATELY !!!!!!!!
+# all_DT$comb_empPval_adj <- p.adjust(all_DT$comb_empPval, method="BH")
+# all_DT$combRank_empPval_adj <- p.adjust(all_DT$combRank_empPval, method="BH")
+
+all_DT$comb_empPval_adj_log10 <- -log10(all_DT$comb_empPval_adj)
+all_DT$combRank_empPval_adj_log10 <- -log10(all_DT$combRank_empPval_adj) 
+
+
+xvar="ratioDown"
+yvar="combRank_empPval_adj_log10"
+
+myx <- all_DT[,xvar]
+myy <- all_DT[,yvar]
+outFile <- file.path(outFold, paste0(yvar, "_vs_", xvar, ".", plotType ))
+do.call(plotType, list(outFile, height=myHeight, width=myWidth))
+densplot(
+  y = myy,
+  x = myx,
+  cex.lab=myCexLab,
+  cex.axis=myCexAxis,
+  ylab=paste0(yvar),
+  xlab = paste0(xvar),
+  cex = 0.5,
+  main = paste0(yvar, " vs. ", xvar)
+)
+addCorr(
+  x = myx,
+  y=myy,
+  legPos="topleft",
+  bty="n"
+)
+foo <- dev.off()
+cat("... written: ", outFile, "\n")
+
+############################################################################
+############################################################################
+
+### WRONG =>> SHOULD BE DONE FOR EACH DATASET SEPARATELY !!!!!!!!
+# all_DT$comb_empPval_adj <- p.adjust(all_DT$comb_empPval, method="BH")
+# all_DT$combRank_empPval_adj <- p.adjust(all_DT$combRank_empPval, method="BH")
+
+all_DT$comb_empPval_adj_log10 <- -log10(all_DT$comb_empPval_adj)
+all_DT$combRank_empPval_adj_log10 <- -log10(all_DT$combRank_empPval_adj) 
+
+
+xvar="ratioDown"
+yvar="comb_empPval_adj_log10"
+
+myx <- all_DT[,xvar]
+myy <- all_DT[,yvar]
+outFile <- file.path(outFold, paste0(yvar, "_vs_", xvar, ".", plotType ))
+do.call(plotType, list(outFile, height=myHeight, width=myWidth))
+densplot(
+  y = myy,
+  x = myx,
+  cex.lab=myCexLab,
+  cex.axis=myCexAxis,
+  ylab=paste0(yvar),
+  xlab = paste0(xvar),
+  cex = 0.5,
+  main = paste0(yvar, " vs. ", xvar)
+)
+addCorr(
+  x = myx,
+  y=myy,
+  legPos="topleft",
+  bty="n"
+)
+foo <- dev.off()
+cat("... written: ", outFile, "\n")
+
+
+
+
+
+
 ############################################################################
 ############################################################################
 
@@ -431,6 +520,7 @@ boxplot(nSignif_DT, ylab="# signif. TADs adj. empPval comb.", main="# signif. TA
 foo <- dev.off()
 cat("... written: ", outFile, "\n")
 
+stop("--ok\n")
 
 ############################################################################
 ############################################################################

@@ -1,10 +1,10 @@
-# Rscript clean_empPval_rank_cmp.R
+# Rscript clean_plot_meanRank.R
 
-script_name <- "clean_empPval_rank_cmp.R"
+script_name <- "clean_plot_meanRank.R"
 
 startTime <- Sys.time()
 
-cat("> START clean_empPval_rank_cmp.R \n")
+cat("> START clean_plot_meanRank.R \n")
 
 SSHFS <- FALSE
 
@@ -181,6 +181,8 @@ all_ranks_var <- c("meanRank")
 
 # all_ds=all_ds[1]
 ds=all_ds[1]
+
+rank_var = all_ranks_var[1]
 
 for(rank_var in all_ranks_var) {
   

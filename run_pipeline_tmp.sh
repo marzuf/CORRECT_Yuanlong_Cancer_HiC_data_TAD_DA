@@ -23,59 +23,59 @@
 
 
 # SKIN
-# ./run_pipeline.sh ENCSR312KHQ_SK-MEL-5_40kb TCGAskcm_lowInf_highInf # 04.07.2019 - 06.07.2019 - 24.07.2019
-# ./run_pipeline.sh ENCSR862OGI_RPMI-7951_40kb TCGAskcm_lowInf_highInf  # 04.07.2019 - 06.07.2019 - 24.07.2019
+# ./run_pipeline.sh ENCSR312KHQ_SK-MEL-5_40kb TCGAskcm_lowInf_highInf # 04.07.2019 - 06.07.2019
+# ./run_pipeline.sh ENCSR862OGI_RPMI-7951_40kb TCGAskcm_lowInf_highInf  # 04.07.2019 - 06.07.2019
 
-# ./run_pipeline.sh ENCSR312KHQ_SK-MEL-5_40kb TCGAskcm_wt_mutBRAF # 04.07.2019 - 06.07.2019 - 24.07.2019
-# ./run_pipeline.sh ENCSR862OGI_RPMI-7951_40kb TCGAskcm_wt_mutBRAF # 04.07.2019 - 06.07.2019 - 24.07.2019
+# ./run_pipeline.sh ENCSR312KHQ_SK-MEL-5_40kb TCGAskcm_wt_mutBRAF # 04.07.2019 - 06.07.2019
+# ./run_pipeline.sh ENCSR862OGI_RPMI-7951_40kb TCGAskcm_wt_mutBRAF # 04.07.2019 - 06.07.2019
 
-# ./run_pipeline.sh ENCSR312KHQ_SK-MEL-5_40kb TCGAskcm_wt_mutCTNNB1	# 04.07.2019 - 06.07.2019 - 24.07.2019
-# ./run_pipeline.sh ENCSR862OGI_RPMI-7951_40kb TCGAskcm_wt_mutCTNNB1	#  04.07.2019 - 06.07.2019 - 24.07.2019
+# ./run_pipeline.sh ENCSR312KHQ_SK-MEL-5_40kb TCGAskcm_wt_mutCTNNB1	# 04.07.2019 - 06.07.2019
+# ./run_pipeline.sh ENCSR862OGI_RPMI-7951_40kb TCGAskcm_wt_mutCTNNB1	#  04.07.2019 - 06.07.2019
 
 
 # LUNG
-# ./run_pipeline.sh ENCSR444WCZ_A549_40kb TCGAluad_norm_luad   # 05.07.2019 - 07.07.2019 - 24.07.2019
-# ./run_pipeline.sh ENCSR489OCU_NCI-H460_40kb TCGAluad_norm_luad   # 05.07.2019 - 07.07.2019 - 24.07.2019
+# ./run_pipeline.sh ENCSR444WCZ_A549_40kb TCGAluad_norm_luad   # 05.07.2019 - 07.07.2019
+# ./run_pipeline.sh ENCSR489OCU_NCI-H460_40kb TCGAluad_norm_luad   # 05.07.2019 - 07.07.2019
 
-# ./run_pipeline.sh ENCSR444WCZ_A549_40kb TCGAluad_mutKRAS_mutEGFR # 05.07.2019 - 07.07.2019 - 24.07.2019
-# ./run_pipeline.sh ENCSR489OCU_NCI-H460_40kb TCGAluad_mutKRAS_mutEGFR  #  05.07.2019 - 07.07.2019 - 24.07.2019
+# ./run_pipeline.sh ENCSR444WCZ_A549_40kb TCGAluad_mutKRAS_mutEGFR # 05.07.2019 - 07.07.2019
+# ./run_pipeline.sh ENCSR489OCU_NCI-H460_40kb TCGAluad_mutKRAS_mutEGFR  #  05.07.2019 - 07.07.2019
 
-# ./run_pipeline.sh ENCSR444WCZ_A549_40kb TCGAluad_nonsmoker_smoker # 05.07.2019 - 07.07.2019 - 24.07.2019
-# ./run_pipeline.sh ENCSR489OCU_NCI-H460_40kb TCGAluad_nonsmoker_smoker  #  05.07.2019 - 07.07.2019 - 24.07.2019
+# ./run_pipeline.sh ENCSR444WCZ_A549_40kb TCGAluad_nonsmoker_smoker # 05.07.2019 - 07.07.2019
+# ./run_pipeline.sh ENCSR489OCU_NCI-H460_40kb TCGAluad_nonsmoker_smoker  #  05.07.2019 - 07.07.2019
 
-# ./run_pipeline.sh ENCSR444WCZ_A549_40kb TCGAluad_wt_mutKRAS # 05.07.2019 - 07.07.2019 - 24.07.2019
-# ./run_pipeline.sh ENCSR489OCU_NCI-H460_40kb TCGAluad_wt_mutKRAS #  05.07.2019 - 07.07.2019 - 24.07.2019
+# ./run_pipeline.sh ENCSR444WCZ_A549_40kb TCGAluad_wt_mutKRAS # 05.07.2019 - 07.07.2019
+# ./run_pipeline.sh ENCSR489OCU_NCI-H460_40kb TCGAluad_wt_mutKRAS #  05.07.2019 - 07.07.2019
 
-# ./run_pipeline.sh ENCSR444WCZ_A549_40kb TCGAlusc_norm_lusc  # 05.07.2019 - 07.07.2019 - 24.07.2019
-# ./run_pipeline.sh ENCSR489OCU_NCI-H460_40kb TCGAlusc_norm_lusc #  05.07.2019 - 07.07.2019 - 24.07.2019
+# ./run_pipeline.sh ENCSR444WCZ_A549_40kb TCGAlusc_norm_lusc  # 05.07.2019 - 07.07.2019
+# ./run_pipeline.sh ENCSR489OCU_NCI-H460_40kb TCGAlusc_norm_lusc #  05.07.2019 - 07.07.2019
 
 	
 # PANCREAS
-# ./run_pipeline.sh Panc1_rep12_40kb TCGApaad_wt_mutKRAS # 04.07.2019 - 07.07.2019 - 24.07.2019
+# ./run_pipeline.sh Panc1_rep12_40kb TCGApaad_wt_mutKRAS # 04.07.2019 - 07.07.2019
 	
 
 # PROSTATE	
-# ./run_pipeline.sh ENCSR346DCU_LNCaP_40kb TCGAprad_norm_prad    # 04.07.2019 - 07.07.2019 - 24.07.2019
-# ./run_pipeline.sh GSE73782_PC3_40kb TCGAprad_norm_prad         # 04.07.2019 - 07.07.2019 - 24.07.2019
-# ./run_pipeline.sh GSE118514_RWPE1_40kb TCGAprad_norm_prad       #  04.07.2019 - 07.07.2019 - 24.07.2019
+# ./run_pipeline.sh ENCSR346DCU_LNCaP_40kb TCGAprad_norm_prad    # 04.07.2019 - 07.07.2019
+# ./run_pipeline.sh GSE73782_PC3_40kb TCGAprad_norm_prad         # 04.07.2019 - 07.07.2019
+# ./run_pipeline.sh GSE118514_RWPE1_40kb TCGAprad_norm_prad       #  04.07.2019 - 07.07.2019
 
 # GBM
-# ./run_pipeline.sh GSE105194_cerebellum_40kb TCGAgbm_classical_mesenchymal # 05.07.2019 - 07.07.2019 - 24.07.2019
-# ./run_pipeline.sh GSE105194_cerebellum_40kb TCGAgbm_classical_neural # 05.07.2019 - 07.07.2019 - 24.07.2019
-# ./run_pipeline.sh GSE105194_cerebellum_40kb TCGAgbm_classical_proneural # 05.07.2019 - 07.07.2019 - 24.07.2019
-# ./run_pipeline.sh GSE105194_cerebellum_40kb TCGAlgg_IDHwt_IDHmutnc # 05.07.2019 - 07.07.2019 - 24.07.2019
+# ./run_pipeline.sh GSE105194_cerebellum_40kb TCGAgbm_classical_mesenchymal # 05.07.2019 - 07.07.2019
+# ./run_pipeline.sh GSE105194_cerebellum_40kb TCGAgbm_classical_neural # 05.07.2019 - 07.07.2019
+# ./run_pipeline.sh GSE105194_cerebellum_40kb TCGAgbm_classical_proneural # 05.07.2019 - 07.07.2019
+# ./run_pipeline.sh GSE105194_cerebellum_40kb TCGAlgg_IDHwt_IDHmutnc # 05.07.2019 - 07.07.2019
 
-# ./run_pipeline.sh GSE105194_spinal_cord_40kb TCGAgbm_classical_mesenchymal # 05.07.2019  - 07.07.2019 - 24.07.2019
-# ./run_pipeline.sh GSE105194_spinal_cord_40kb TCGAgbm_classical_neural # 05.07.2019  - 07.07.2019 - 24.07.2019 
-# ./run_pipeline.sh GSE105194_spinal_cord_40kb TCGAgbm_classical_proneural # 05.07.2019 - 07.07.2019 - 24.07.2019
-# ./run_pipeline.sh GSE105194_spinal_cord_40kb TCGAlgg_IDHwt_IDHmutnc # 05.07.2019  - 07.07.2019 - 24.07.2019
+# ./run_pipeline.sh GSE105194_spinal_cord_40kb TCGAgbm_classical_mesenchymal # 05.07.2019  - 07.07.2019
+# ./run_pipeline.sh GSE105194_spinal_cord_40kb TCGAgbm_classical_neural # 05.07.2019  - 07.07.2019
+# ./run_pipeline.sh GSE105194_spinal_cord_40kb TCGAgbm_classical_proneural # 05.07.2019 - 07.07.2019
+# ./run_pipeline.sh GSE105194_spinal_cord_40kb TCGAlgg_IDHwt_IDHmutnc # 05.07.2019  - 07.07.2019
 
 
 # COLORECTAL
-# ./run_pipeline.sh GSE105318_DLD1_40kb TCGAcoad_msi_mss # 04.07.2019 - 07.07.2019 - 24.07.2019
+# ./run_pipeline.sh GSE105318_DLD1_40kb TCGAcoad_msi_mss # 04.07.2019 - 07.07.2019
 
 # LYMPHOBLAST
-# ./run_pipeline.sh K562_40kb TCGAlaml_wt_mutFLT3 # 04.07.2019 - 07.07.2019- 24.07.2019
+# ./run_pipeline.sh K562_40kb TCGAlaml_wt_mutFLT3 # 04.07.2019 - 07.07.2019
 
 
 
@@ -107,21 +107,9 @@ step2=1    # run the pipeline
 #TAD_DE_pipSteps=( "9rank" )
 #TAD_DE_pipSteps=( "10rank" "11rank" )
 # TAD_DE_pipSteps=( "19" )
-#TAD_DE_pipSteps=( "5" "6" "9" )
-#TAD_DE_pipSteps=( "5" )
-#TAD_DE_pipSteps=( "6" "9" "19onlyFC" "8cOnlyRatioDown")
-#TAD_DE_pipSteps=( "8cOnlyRatioDown")
-#TAD_DE_pipSteps=( "19onlyFC")
-#TAD_DE_pipSteps=( "9" "19")
-#TAD_DE_pipSteps=( "19")
-#TAD_DE_pipSteps=( "10sameNbr" "11sameNbr" )
-#TAD_DE_pipSteps=( "8cOnlyRatioDown")
-#TAD_DE_pipSteps=( "7" "10")
-#TAD_DE_pipSteps=( "19onlyFCandCorr" )
-#TAD_DE_pipSteps=( "8cOnlyRatioDown" "19onlyFCandCorr" )
-#TAD_DE_pipSteps=( "11sameNbr" )
-#TAD_DE_pipSteps=( "11" "11sameNbr" )
-TAD_DE_pipSteps=( "0cleanInputTCGAminCount" )
+#TAD_DE_pipSteps=( "5" "6" )
+TAD_DE_pipSteps=( "11sameNbr" )
+
 
 # ./run_pipeline.sh GSE105381_HepG2_40kb TCGAlihc_norm_lihc   # 
 
@@ -244,16 +232,6 @@ if [[ "$step1" -eq 1 ]] ; then
 			step8_for_randomTADsGaussian <- FALSE
 			step8_for_randomTADsShuffle <- FALSE
 			step14_for_randomTADsShuffle <- FALSE
-
-
-            # added here 13.08.2019 to change the filtering of min. read counts
-            rm(minCpmRatio)
-            min_counts <- 5
-            min_sampleRatio <- 0.8
-
-
-            # to have compatible versions of Rdata
-            options(save.defaults = list(version = 2))
 
 	EOM
 	echo "WRITTEN: ${new_setting_file}"

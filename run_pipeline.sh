@@ -121,7 +121,9 @@ step2=1    # run the pipeline
 #TAD_DE_pipSteps=( "8cOnlyRatioDown" "19onlyFCandCorr" )
 #TAD_DE_pipSteps=( "11sameNbr" )
 #TAD_DE_pipSteps=( "11" "11sameNbr" )
-TAD_DE_pipSteps=( "0cleanInputTCGAminCount" )
+#TAD_DE_pipSteps=( "0cleanInputTCGAminCount" )
+#TAD_DE_pipSteps=( "5fast" )
+TAD_DE_pipSteps=( "5testv0" "5testv2" )
 
 # ./run_pipeline.sh GSE105381_HepG2_40kb TCGAlihc_norm_lihc   # 
 
@@ -135,9 +137,9 @@ runDir="/mnt/etemp/marie/Yuanlong_Cancer_HiC_data_TAD_DA"
 TAD_DE_pipDir="/mnt/ed4/marie/scripts/TAD_DE_pipeline_v2_TopDom"
 TAD_DE_script="./zzz_run_given_step_given_data_v2.sh"
 old_inputFolder="/mnt/ed4/marie/scripts/TAD_DE_pipeline/SETTING_FILES_cleanInput"
-nPermut="100000"
-#nPermut="10"
-ncpu="40"
+#nPermut="10000"
+nPermut="10"
+ncpu="4"
 
 Rexec=`which Rscript`
 
